@@ -1,12 +1,12 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import pointSchema from "./PointSchema";
 
 const SpecimenSchema = new mongoose.Schema({
-  species: {type: String, required: true}, // TO-DO: Update as reference with species schema
+  species: {type: Schema.Types.ObjectId, required: true, ref: "Species"},
   location: {type: pointSchema, required: true},
-  unverified: Boolean,
+  unverified: {type: Boolean, required: true},
   picture: String,
-  createdAt: {type: Date, required: true},
+  createdAt: {type: Date, required: true, immutable: true},
   userFoundBy: String //TO-DO: Update as reference to particular user
 })
 
