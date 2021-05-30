@@ -11,16 +11,19 @@ export default function NavbarMain () {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="#">Home</a>
+              <a className="nav-link active" aria-current="page" href="#">Challenge</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">Features</a>
+              <a className="nav-link" href="#">Search</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">Pricing</a>
+              <a className="nav-link" href="#">ID</a>
             </li>
             <li className="nav-item">
               <a className="nav-link disabled" href="#" tabIndex="-1" aria-disabled="true">Disabled</a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#">Login/Signup</a>
             </li>
           </ul>
         </div>
