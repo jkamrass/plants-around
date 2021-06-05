@@ -7,7 +7,7 @@ const SpecimenSchema = new mongoose.Schema({
   unverified: {type: Boolean, required: true},
   picture: String,
   createdAt: {type: Date, required: true, immutable: true},
-  userFoundBy: String //TO-DO: Update as reference to particular user
+  userFirstFoundBy: String //TO-DO: Update as reference to particular user
 })
 
 export default mongoose.models.Specimen || mongoose.model('Specimen', SpecimenSchema);
