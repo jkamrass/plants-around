@@ -9,7 +9,7 @@ const SightingSchema = new mongoose.Schema({
   user: {type: Schema.Types.ObjectId, required: true, ref: "User"},
   specimen: {type: Schema.Types.ObjectId, ref: "Specimen"},
   location: {type: pointSchema, required: true},
-  verified: {type: Boolean, required: true},
+  verified: {type: Number, required: true},
   verifications: [{type: Schema.Types.Mixed}],
   images: [String],
   },
