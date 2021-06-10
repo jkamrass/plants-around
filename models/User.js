@@ -17,8 +17,10 @@ const UserSchema = new mongoose.Schema({
     image: String,
     verified: Number,
     verifications: [{type: Schema.Types.Mixed}]
-  }],
-})
+  }]
+  },
+  {timestamps: true}
+)
 
 // UserSchema.methods.setPassword = function(password){
 //   this.salt = crypto.randomBytes(16).toString('hex');
