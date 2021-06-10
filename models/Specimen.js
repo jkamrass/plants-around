@@ -8,10 +8,11 @@ const SpecimenSchema = new mongoose.Schema({
     thumbnail: String
   },
   location: {type: pointSchema, required: true},
-  unverified: {type: Boolean, required: true},
-  picture: String,
-  createdAt: {type: Date, required: true, immutable: true},
-  userFirstFoundBy: String //TO-DO: Update as reference to particular user
-})
+  image: String,
+  numberOfSighting: {type: number, required: true},
+  lastSightedAt: {type: Date, required: true},
+  },
+  {timestamps: true}
+)
 
 export default mongoose.models.Specimen || mongoose.model('Specimen', SpecimenSchema);
