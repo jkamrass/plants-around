@@ -3,7 +3,7 @@ import pointSchema from "./PointSchema";
 
 const SightingSchema = new mongoose.Schema({
   species: {
-    id: {type: Schema.Types.ObjectId, required: true, ref: "Species"},
+    _id: {type: Schema.Types.ObjectId, required: true, ref: "Species"},
     name: String,
   },
   user: {type: Schema.Types.ObjectId, ref: "User"},
