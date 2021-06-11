@@ -16,6 +16,7 @@ export default function Home() {
         <h1 className={styles.title}>
           johnny, william, and philip
           Swimming in the boat. Johnny got new swimming trunks.
+          <a href="/id">Test</a>
         </h1>
 
         <p className={styles.description}>
