@@ -35,11 +35,10 @@ function ExploreSpecies() {
     if(speciesId) {
       axios.get(`/api/explore/${speciesId}?long=${searchLocation.longitude}&lat=${searchLocation.latitude}`)
         .then((response) => {
-          debugger;
           setSpecimens(response.data)
         })
     }
-  }, [])
+  }, [speciesId])
 
   const generateMapMarkers = (specimens) => {
     const currentLocationMarker = <CurrentLocationMapMarker
@@ -60,7 +59,7 @@ function ExploreSpecies() {
   return (
     <div className="container-fluid">
       <div className="row text-center">
-        <div className="col-md-6 offset-md-3">
+        <div className="col-md-10 offset-md-1">
           <h2>Here's the Explore page for a particular species</h2>
           {searchLocation && specimens ? <SpecimenSearchMap searchLocation={searchLocation}>{generateMapMarkers(specimens)}</SpecimenSearchMap> : <p>Loading</p>}
         </div>
