@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import SpecimenSearchMap from "../../components/SpecimenSearchMap";
 import SpecimenMapMarker from "../../components/specimenMapMarker";
 import axios from "axios";
+import CurrentLocationMapMarker from "../../components/currentLocationMapMarker";
 
 function ExploreSpecies() {
   const router = useRouter();
@@ -41,14 +42,18 @@ function ExploreSpecies() {
   }, [])
 
   const generateMapMarkers = (specimens) => {
-    debugger;
-    return specimens.map(specimen => 
+    const currentLocationMarker = <CurrentLocationMapMarker
+      lng={searchLocation.longitude}
+      lat={searchLocation.latitude}
+      key="currentLocation" />
+    const specimenMarkers = specimens.map(specimen => 
       <SpecimenMapMarker
         lng={specimen.location.coordinates[0]}
         lat={specimen.location.coordinates[1]}
         key={specimen._id}
         />
-    )
+    );
+    return [currentLocationMarker, ...specimenMarkers];
   }
 
 
@@ -56,7 +61,7 @@ function ExploreSpecies() {
     <div className="container-fluid">
       <div className="row text-center">
         <div className="col-md-6 offset-md-3">
-          <h3>Here's the Explore page for a particular species</h3>
+          <h2>Here's the Explore page for a particular species</h2>
           {searchLocation && specimens ? <SpecimenSearchMap searchLocation={searchLocation}>{generateMapMarkers(specimens)}</SpecimenSearchMap> : <p>Loading</p>}
         </div>
       </div>
