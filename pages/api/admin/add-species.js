@@ -4,8 +4,11 @@ import dbConnect from "../../../utils/dbConnect";
 export default async (req, res) => {
   await dbConnect();
   const newSpeciesInfo = {
-    name: "Blackberry",
-    scientificName : "Rubus allegheniensis"
+    name: req.body.name,
+    scientificName : req.body.scientificName,
+    images: {
+      thumbnail: req.body.thumbnail
+    }
   }
   const newSpecies = new Species(newSpeciesInfo);
   newSpecies.scientificNameNormalized = newSpecies.scientificName.toLowerCase();
@@ -18,3 +21,4 @@ export default async (req, res) => {
 //   name: "Common Fig",
 //   scientificName : "Ficus carica"
 // }
+// Blackberry

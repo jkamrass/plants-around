@@ -7,7 +7,7 @@ export default function SpecimenSearchMap (props) {
   return (
     <div style={{ height: '100vh', width: '100%' }}>
       <GoogleMapReact 
-        bootstrapURLKeys={{key: process.env.GOOGLE_MAPS_API_KEY}}
+        bootstrapURLKeys={{key: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}}
         defaultCenter={{lng: searchLocation.longitude, lat: searchLocation.latitude}}
         defaultZoom={15}>
         {props.children}

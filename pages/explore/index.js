@@ -40,7 +40,7 @@ function Explore() {
   return (
     <div className="container-fluid">
       <div className="row text-center">
-        <div className="col-md-6 offset-md-3">
+        <div className="col-md-10 offset-md-1">
           <p>Here's the Explore page</p>
           {nearbySpecies ? <NearbySpeciesList nearbySpecies={nearbySpecies}/>: <p>Results Loading</p>}
           {searchLocation ? <SpecimenSearchMap searchLocation={searchLocation} /> : <p>Loading</p>}
