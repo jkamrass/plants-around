@@ -11,8 +11,8 @@ export default async (req, res) => {
   await Sighting.deleteMany({});
   const fallingFruitData = await googleSheetReader("1tFhFxheTnWcro1F35kF0_kJCF-xsxuP4IruW1ulyue4");
   const figsList = fallingFruitData.filter((specimen) => specimen.types.toLowerCase().includes("fig"));
-  const speciesForSighting = await Species.findOne({name: "Common Fig"}, "name").exec();
-  for (let i = 0; i < 10; i++) {
+  const speciesForSighting = await Species.findOne({name: "Common Fig"}, "name images").exec();
+  for (let i = 0; i < 20; i++) {
     const newSighting = new Sighting();
     newSighting.species = speciesForSighting;
     newSighting.verified = "TRUE";
@@ -24,7 +24,7 @@ export default async (req, res) => {
   
     const newSpecimen = new Specimen();
     newSpecimen.location = newSighting.location;
-    newSpecimen.species = speciesForSighting;
+    newSpecimen.species = {_id: speciesForSighting._id, name: speciesForSighting.name, thumbnail: speciesForSighting.images.thumbnail};
     newSpecimen.numberOfSightings = 1;
     newSpecimen.lastSightedAt = new Date();
   

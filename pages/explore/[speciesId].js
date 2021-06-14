@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import SpecimenSearchMap from "../../components/SpecimenSearchMap";
+import SpecimenMapMarker from "../../components/specimenMapMarker";
 
 function ExploreSpecies({speciesId}) {
-  const [searchLocation, setSearchLocation] = useState();
+  const [searchLocation, setSearchLocation] = useState({longitude: -78.8945828, latitude: 36.0083195});
+  const [accuracy , setAccuracy] = useState();
+  const [geoLocationError, setGeoLocationError] = useState();
   // latitude: 36.0083195
   // longitude: -78.8945828
 
@@ -28,8 +31,8 @@ function ExploreSpecies({speciesId}) {
     <div className="container-fluid">
       <div className="row text-center">
         <div className="col-md-6 offset-md-3">
-          <p>Here's the Explore page for a particular species</p>
-          {searchLocation ? <SpecimenSearchMap searchLocation={searchLocation} /> : <p>Loading</p>}
+          <h3>Here's the Explore page for a particular species</h3>
+          {searchLocation ? <SpecimenSearchMap searchLocation={searchLocation}><SpecimenMapMarker lat={36.0083195} lng={-78.8945828} text={"Hello"}/></SpecimenSearchMap> : <p>Loading</p>}
         </div>
       </div>
     </div>

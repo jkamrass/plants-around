@@ -1,6 +1,7 @@
 import GoogleMapReact from 'google-map-react';
 //TO-DO: Hide API key in env variables
-export default function SpecimenSearchMap ({searchLocation}) {
+export default function SpecimenSearchMap (props) {
+  let {searchLocation} = props;
   searchLocation ? null : searchLocation = {longitude: -78.92876857, latitude: 36.01385727};
   //const searchLocation = [-78.92876857, 36.01385727];
   return (
@@ -9,6 +10,7 @@ export default function SpecimenSearchMap ({searchLocation}) {
         bootstrapURLKeys={{key: "AIzaSyD5K5fJO3asvidTRdf85iVDGtodw0dp5fk"}}
         defaultCenter={{lng: searchLocation.longitude, lat: searchLocation.latitude}}
         defaultZoom={15}>
+        {props.children}
       </GoogleMapReact>
     </div>
   )
