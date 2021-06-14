@@ -8,10 +8,10 @@ import CurrentLocationMapMarker from "../../components/currentLocationMapMarker"
 function ExploreSpecies() {
   const router = useRouter();
   const {speciesId} = router.query
-  const [searchLocation, setSearchLocation] = useState({longitude: -78.8945828, latitude: 36.0083195});
+  const [searchLocation, setSearchLocation] = useState();
   const [accuracy , setAccuracy] = useState();
-  const [geoLocationError, setGeoLocationError] = useState();
-  const [specimens, setSpecimens] = useState();
+  const [geoLocationError, setGeoLocationError] = useState(false);
+  const [specimens, setSpecimens] = useState([]);
   // latitude: 36.0083195
   // longitude: -78.8945828
 
@@ -31,14 +31,30 @@ function ExploreSpecies() {
   //     navigator.geolocation.clearWatch(geoId)
   //   }
   // }, [])
+  const handlePositionSuccess = pos => {
+    setSearchLocation(pos.coords);
+    setAccuracy(pos.coords.accuracy);
+  };
+  const handlePositionFailure = err => setGeoLocationError(true);
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(handlePositionSuccess, handlePositionFailure, {enableHighAccuracy: true})
+  }, [])
+
   useEffect(() => {
     if(speciesId) {
-      axios.get(`/api/explore/${speciesId}?long=${searchLocation.longitude}&lat=${searchLocation.latitude}`)
+      let url = `/api/explore/${speciesId}`;
+      if (searchLocation) {
+        url += `?long=${searchLocation.longitude}&lat=${searchLocation.latitude}`;
+      } else if (geoLocationError) {
+        url += `?long=${-78.8945828}&lat=${36.0083195}`;
+      }
+      axios.get(url)
         .then((response) => {
           setSpecimens(response.data)
         })
     }
-  }, [speciesId])
+  }, [speciesId, searchLocation, geoLocationError])
 
   const generateMapMarkers = (specimens) => {
     const currentLocationMarker = <CurrentLocationMapMarker
@@ -61,7 +77,7 @@ function ExploreSpecies() {
       <div className="row text-center">
         <div className="col-md-10 offset-md-1">
           <h2>Here's the Explore page for a particular species</h2>
-          {searchLocation && specimens ? <SpecimenSearchMap searchLocation={searchLocation}>{generateMapMarkers(specimens)}</SpecimenSearchMap> : <p>Loading</p>}
+          {searchLocation ? <SpecimenSearchMap searchLocation={searchLocation}>{generateMapMarkers(specimens)}</SpecimenSearchMap> : <p>Loading</p>}
         </div>
       </div>
     </div>
