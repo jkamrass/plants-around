@@ -2,9 +2,9 @@ import { faLeaf } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 
-export default function SpecimenMapMarker ({text}) {
+export default function SpecimenMapMarker ({key}) {
   return (
-    <div style={markerStyle}>
+    <div style={markerStyle} key={key}>
       <FontAwesomeIcon icon={faLeaf} size="2x" color="green"/>
     </div>
   )
