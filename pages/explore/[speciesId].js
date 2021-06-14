@@ -75,8 +75,7 @@ function ExploreSpecies() {
   return (
     <div className="container-fluid">
       <div className="row text-center">
-        <div className="col-md-10 offset-md-1">
-          <h2>Here's the Explore page for a particular species</h2>
+        <div className="col-md-12">
           {searchLocation ? <SpecimenSearchMap searchLocation={searchLocation}>{generateMapMarkers(specimens)}</SpecimenSearchMap> : <p>Loading</p>}
         </div>
       </div>
