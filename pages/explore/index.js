@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import NearbySpeciesList from "../../components/nearbySpeciesList";
 import SpecimenSearchMap from "../../components/SpecimenSearchMap";
 function Explore() {
   const [searchLocation, setSearchLocation] = useState();
@@ -13,6 +14,7 @@ function Explore() {
   // latitude: 36.012032
   // longitude: -78.8987904
   const getPositionSuccess = pos => {
+    console.log(pos);
     setSearchLocation(pos.coords);
   }
 
@@ -40,7 +42,7 @@ function Explore() {
       <div className="row text-center">
         <div className="col-md-6 offset-md-3">
           <p>Here's the Explore page</p>
-          {nearbySpecies ? nearbySpecies.map((species) => <p>{species._id.name}</p>): <p>Results Loading</p>}
+          {nearbySpecies ? <NearbySpeciesList nearbySpecies={nearbySpecies}/>: <p>Results Loading</p>}
           {searchLocation ? <SpecimenSearchMap searchLocation={searchLocation} /> : <p>Loading</p>}
         </div>
       </div>
