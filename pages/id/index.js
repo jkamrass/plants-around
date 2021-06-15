@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import ImageUploader from "../../components/imageUploader";
 import SpeciesSelectionId from "../../components/speciesSelectionId";
 import { Button } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {faCamera} from "@fortawesome/free-solid-svg-icons"
 
 function IdPage () {
   const [loaded, setLoaded] = useState(false);
@@ -12,14 +14,23 @@ function IdPage () {
   const [geoLocationError, setGeoLocationError] = useState(null);
   const [speciesOptions, setSpeciesOptions] = useState([]);
   const [speciesForId, setSpeciesForId] = useState([]);
-  console.log(geoLocation);
-  console.log(geoLocationAccuracy);
+  const [imagesForId, setImagesForId] = useState([]);
+  console.log(imagesForId);
   if(loaded) {
     var myWidget = cloudinary.createUploadWidget({
-    cloudName: 'my_cloud_name', 
-    uploadPreset: 'my_preset'}, (error, result) => { 
-      if (!error && result && result.event === "success") { 
+    cloudName: 'plants-around', 
+    uploadPreset: 'testing',
+    sources: ["local", "url", "google_drive"],
+    }, (error, result) => { 
+      if (!error && result && result.event === "success") {
+        const uploadedImage = {
+          url: result.info.secure_url,
+          thumbnail: result.info.thumbnail_url
+        }
+        console.log("right before", imagesForId);
+        setImagesForId((prevState) => [...prevState, uploadedImage])
         console.log('Done! Here is the image info: ', result.info); 
+        console.log(result);
       }
     }
     )
@@ -76,8 +87,11 @@ function IdPage () {
           </div>
           <div className="row mb-3">
             <div className="col-md-12">
-              <h2>Your Photos</h2>
-              <Button variant="primary" onClick={() => myWidget.open()}>Upload files</Button>
+              <h2>What does it look like?</h2>
+              <Button variant="outline-primary" onClick={() => myWidget.open()}><FontAwesomeIcon icon={faCamera} /></Button>
+              <div className="thumbnail-container">
+                {imagesForId.map((image) => <h2>Test</h2>)}
+              </div>
             </div>
           </div>
         </div>
