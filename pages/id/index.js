@@ -6,6 +6,7 @@ import SpeciesSelectionId from "../../components/speciesSelectionId";
 import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faCamera} from "@fortawesome/free-solid-svg-icons"
+import Image from "next/image";
 
 function IdPage () {
   const [loaded, setLoaded] = useState(false);
@@ -90,7 +91,31 @@ function IdPage () {
               <h2>What does it look like?</h2>
               <Button variant="outline-primary" onClick={() => myWidget.open()}><FontAwesomeIcon icon={faCamera} /></Button>
               <div className="thumbnail-container">
-                {imagesForId.map((image) => <h2>Test</h2>)}
+                {imagesForId.map((image, index) => {
+                  return (
+                    <div className="col-sm-6" key={index}>
+                      <div className="card">
+                          <div className="row g-0">
+                            <div className="col-6">
+                              <Image
+                                src={`${image.url}`}
+                                height={250}
+                                width={250}
+                                layout="responsive"
+                                className="card-img-top img-thumbnail"
+                                alt="..." />
+                            </div>
+                            <div className="col-6 text-start">
+                              <div className="card-body">
+                                <h6 className="card-title">Image #{index+1}</h6>
+                                <p className="card-text text-left">Plant Part:</p>
+                              </div>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                  )
+                })}
               </div>
             </div>
           </div>
