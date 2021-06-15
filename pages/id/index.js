@@ -3,6 +3,7 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import ImageUploader from "../../components/imageUploader";
 import SpeciesSelectionId from "../../components/speciesSelectionId";
+import { Button } from "react-bootstrap";
 
 function IdPage () {
   const [loaded, setLoaded] = useState(false);
@@ -10,6 +11,7 @@ function IdPage () {
   const [geoLocationAccuracy, setGeoLocationAccuracy] = useState(null);
   const [geoLocationError, setGeoLocationError] = useState(null);
   const [speciesOptions, setSpeciesOptions] = useState([]);
+  const [speciesForId, setSpeciesForId] = useState([]);
   console.log(geoLocation);
   console.log(geoLocationAccuracy);
   if(loaded) {
@@ -57,10 +59,29 @@ function IdPage () {
       navigator.geolocation.clearWatch(geoId);
     }
   }, [])
+
+  const onSpeciesSelection = (selection) => {
+    if (selection.length !== 0) {
+      setSpeciesForId(selection[0]._id);
+    }
+  }
+
   return (
     <div className="container-fluid">
-      <SpeciesSelectionId speciesOptions={speciesOptions}/>
-      {loaded ? <button id="upload_widget" className="cloudinary-button" onClick={() => myWidget.open()}>Upload files</button> : <p>Still Loading</p>}
+      <div className="row">
+        <div className="col-md-6 offset-md-3">
+          <div className="row mb-3">
+            <h2>What plant is it?</h2>
+            <SpeciesSelectionId speciesOptions={speciesOptions} selectState={speciesForId} onSelection={setSpeciesForId}/>
+          </div>
+          <div className="row mb-3">
+            <div className="col-md-12">
+              <h2>Your Photos</h2>
+              <Button variant="primary" onClick={() => myWidget.open()}>Upload files</Button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
