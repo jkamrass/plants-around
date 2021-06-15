@@ -7,6 +7,8 @@ import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faCamera} from "@fortawesome/free-solid-svg-icons"
 import Image from "next/image";
+import IdLocationMap from "../../components/idLocationMap";
+import CurrentLocationMapMarker from "../../components/currentLocationMapMarker";
 
 function IdPage () {
   const [loaded, setLoaded] = useState(false);
@@ -16,6 +18,7 @@ function IdPage () {
   const [speciesOptions, setSpeciesOptions] = useState([]);
   const [speciesForId, setSpeciesForId] = useState([]);
   const [imagesForId, setImagesForId] = useState([]);
+  const [showMap, setShowMap] = useState(false);
   console.log(imagesForId);
   if(loaded) {
     var myWidget = cloudinary.createUploadWidget({
@@ -62,6 +65,10 @@ function IdPage () {
       setGeoLocation({longitude: position.coords.longitude, latitude: position.coords.latitude});
       setGeoLocationAccuracy(position.coords.accuracy);
     }
+  }
+  const onMapClick = ({x, y, lng, lat, event}) => {
+    debugger;
+    setGeoLocation({longitude: lng, latitude: lat})
   }
 
   useEffect(() => {
@@ -119,6 +126,17 @@ function IdPage () {
               </div>
             </div>
           </div>
+          <div className="row mb-3">
+            <div className="col-md-12">
+              <Button variant="primary" onClick={() => setShowMap(true)}>Select Location</Button>
+              {showMap ? <IdLocationMap searchLocation={geoLocation} onMapClick={onMapClick}><CurrentLocationMapMarker lng={geoLocation.longitude} lat={geoLocation.latitude}/></IdLocationMap> : null}
+            </div>
+          </div>
+        </div>
+        <div className="row mb-3">
+            <div className="col-md-12">
+              <Button variant="primary">Submit Sighting</Button>
+            </div>
         </div>
       </div>
     </div>

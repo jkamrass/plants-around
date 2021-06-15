@@ -5,17 +5,14 @@ import GoogleMapReact from 'google-map-react';
 import { Button } from 'react-bootstrap';
 import Link from 'next/link';
 //TO-DO: Hide API key in env variables
-export default function SpecimenSearchMap (props) {
-  let {searchLocation} = props;
+export default function IdLocationMap (props) {
+  let {searchLocation, onMapClick} = props;
   searchLocation ? null : searchLocation = {longitude: -78.92876857, latitude: 36.01385727};
 
   const apiIsLoaded = (map, maps) => {
     map.setOptions({'fullscreenControl': false});
   }
 
-  const onMapClick = ({ x, y, lat, lng, event }) => {
-    console.log(event);
-  }
   //const searchLocation = [-78.92876857, 36.01385727];
   return (
     <div style={{ height: '90vh', width: '100%', position: 'relative'}}>
