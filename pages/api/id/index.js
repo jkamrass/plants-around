@@ -12,27 +12,32 @@ export default async (req, res) => {
     if (!speciesForSighting) {
       return res.status(404).send("No species with that id found");
     }
-    // // Check to make sure images and plant organs are valid
-    // if (!req.body.images) {
-    //   return res.status(400).send("Must include images");
-    // }
+    // Check to make sure images and plant organs are valid
+    if (!req.body.images) {
+      return res.status(400).send("Must include images");
+    }
     // Check to make sure the location is valid
 
     // Create the new document for this sighting
-    // const newSighting = new Sighting();
-    // newSighting.species = speciesForSighting;
-    // newSighting.location = {
-    //   type: "Point",
-    //   coordinates: [req.body.location.longitude, req.body.location.latitude]
-    // }
+    const newSighting = new Sighting();
+    newSighting.species = speciesForSighting;
+    newSighting.location = {
+      type: "Point",
+      coordinates: [Number(req.body.location.longitude), Number(req.body.location.latitude)]
+    };
     // Add images to sighting
+    newSighting.images = req.body.images;
 
     // Test for plant net:
-    const imagesToId = [{imageUrl: "https://www.irishtimes.com/polopoly_fs/1.3997665.1566828860!/image/image.jpg", organ: "leaf"}]
+    //const imagesToId = [{imageUrl: "https://res.cloudinary.com/dk4lsu1uf/image/upload/v1623763521/Test%20Id%20Photos/Fig_Test.jpg", organ: "leaf"}];
     // Send the results to plant net to identify
-    const plantNetIdResponse = await getPlantNetIdResults(imagesToId);
+    const plantNetIdResponse = await getPlantNetIdResults(req.body.images);
     const speciesMatch = plantNetIdResponse.data.results.find((possibleSpeciesMatch) => possibleSpeciesMatch.species.scientificNameWithoutAuthor === speciesForSighting.scientificName)
     const plantNetVerification = {source: "Plant Net", matchScore: speciesMatch ? speciesMatch.score : 0};
+
+    newSighting.verifications = [plantNetVerification];
+    newSighting.verified = plantNetVerification.matchScore >= .5 ? "TRUE" : "PENDING";
+    
     //plantNetVerification.matchScore = speciesMatch ? speciesMatch.score : 0;
     // Check if plant net id matches with the species
 
