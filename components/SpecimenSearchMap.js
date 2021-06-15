@@ -1,4 +1,9 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleDoubleLeft } from "@fortawesome/free-solid-svg-icons"
+
 import GoogleMapReact from 'google-map-react';
+import { Button } from 'react-bootstrap';
+import Link from 'next/link';
 //TO-DO: Hide API key in env variables
 export default function SpecimenSearchMap (props) {
   let {searchLocation} = props;
@@ -6,7 +11,6 @@ export default function SpecimenSearchMap (props) {
 
   const apiIsLoaded = (map, maps) => {
     map.setOptions({'fullscreenControl': false});
-    debugger;
   }
   //const searchLocation = [-78.92876857, 36.01385727];
   return (
@@ -19,8 +23,8 @@ export default function SpecimenSearchMap (props) {
         onGoogleApiLoaded={({ map, maps }) => apiIsLoaded(map, maps)}>
         {props.children}
       </GoogleMapReact>
-      <div style={{position: 'absolute', top: '5%'}}>
-        <p>test</p>
+      <div style={{position: 'absolute', top: '3%', left: '1%'}}>
+        <Link href="/explore"><Button variant="light"><FontAwesomeIcon icon={faAngleDoubleLeft} size='2x'/></Button></Link>
       </div>
     </div>
   )
