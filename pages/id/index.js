@@ -21,6 +21,7 @@ function IdPage () {
   const [speciesOptions, setSpeciesOptions] = useState([]);
   const [speciesForId, setSpeciesForId] = useState([]);
   const [imagesForId, setImagesForId] = useState([]);
+  const [organsInImages, setOrgansInImages] = useState([])
   const [showMap, setShowMap] = useState(false);
 
   if(loaded) {
@@ -34,12 +35,10 @@ function IdPage () {
         const uploadedImage = {
           id: result.info.public_id,
           url: result.info.secure_url,
-          thumbnail: result.info.thumbnail_url
+          thumbnail: result.info.thumbnail_url,
+          organ: []
         }
-        console.log("right before", imagesForId);
-        setImagesForId((prevState) => [...prevState, uploadedImage])
-        console.log('Done! Here is the image info: ', result.info); 
-        console.log(result);
+        setImagesForId((prevState) => [...prevState, uploadedImage]);
       }
     }
     )
@@ -88,7 +87,7 @@ function IdPage () {
     if (selection.length !== 0) {
       setSpeciesForId(selection[0]._id);
     }
-  }
+  };
 
   return (
     <div className="container-fluid">
