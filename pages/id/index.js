@@ -89,6 +89,34 @@ function IdPage () {
     }
   };
 
+  const submitSighting = () => {
+    // TO-DO: Check to make sure all required information has been provided
+    const imagesInProperFormatForApi = imagesForId.map(image => {
+      return {
+        imageUrl: image.url,
+        organ: image.organ[0]
+      }
+    })
+    
+    const sighting = {
+      location: {
+        longitude: geoLocation.longitude,
+        latitude: geoLocation.latitude
+      },
+      species: speciesForId[0]._id,
+      images: imagesInProperFormatForApi
+    };
+
+    axios.post("/api/id", sighting)
+      .then(response => {
+        console.log(response);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+    console.log(sighting);
+  };
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -121,7 +149,7 @@ function IdPage () {
         </div>
         <div className="row mb-3">
             <div className="col-md-12">
-              <Button variant="primary">Submit Sighting</Button>
+              <Button variant="primary" onClick={submitSighting}>Submit Sighting</Button>
             </div>
         </div>
       </div>
