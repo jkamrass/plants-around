@@ -13,10 +13,15 @@ function VerifyPage () {
         setSightingNeedingVerification(response.data[0]);
       })
   }, [])
-  console.log(sightingNeedingVerification);
 
-  const submitVerification = (moderatorSelection) => {
-    axios.put(`/api/verify/${sightingNeedingVerification._id}`)
+  const submitVerification = (moderatorInput) => {
+    axios.put(`/api/verify/${sightingNeedingVerification._id}`, {moderatorInput})
+      .then(response => {
+        console.log(response);
+      })
+      .catch(response => {
+        console.log(response);
+      })
   }
 
   const generateLoadingSighting = () => {
@@ -66,9 +71,9 @@ function VerifyPage () {
       </div>
       <div className="row">
         <div className="col-md-6 offset-md-3">
-          <Button variant="primary">Yes</Button>
-          <Button variant="primary">No</Button>
-          <Button variant="primary">Unsure</Button>
+          <Button variant="primary" onClick={() => submitVerification(1)}>Yes</Button>
+          <Button variant="primary" onClick={() => submitVerification(-1)}>No</Button>
+          <Button variant="primary" onClick={() => submitVerification(0)}>Unsure</Button>
         </div>
       </div>
      </div>
