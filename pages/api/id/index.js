@@ -41,7 +41,7 @@ export default async (req, res) => {
     // Create a new specimen if the sighting is verified
     // TO-DO: Check if the sighting is already at a specimen location
     if(newSighting.verified === "TRUE") {
-      // Checks to see if the sighting is of (very close to) an existing specimen
+      // Checks to see if the sighting is of (very close to) an existing specimen (Currently checks for a specimen within 10 meters of sighting);
       let specimenForSighting = await Specimen.findOne({
         location: {
           $near: {
