@@ -11,9 +11,9 @@ export default function NavbarMain () {
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
           <Nav.Link href="#home">Challenge</Nav.Link>
-          <Link href="/explore" passHref><Nav.Link><FontAwesomeIcon icon={faMap} /> Explore</Nav.Link></Link>
+          <Link href="/explore" passHref><Nav.Link><FontAwesomeIcon icon={faMap} /> Verify</Nav.Link></Link>
           <Link href="/id" passHref><Nav.Link><FontAwesomeIcon icon={faCamera} /> Id</Nav.Link></Link>
-          <Link href="/" passHref><Nav.Link><FontAwesomeIcon icon={faCheckSquare} /> Verify</Nav.Link></Link>
+          <Link href="/verify" passHref><Nav.Link><FontAwesomeIcon icon={faCheckSquare} /> Verify</Nav.Link></Link>
           <Nav.Link href="#link">Login/Signup</Nav.Link>
         </Nav>
       </Navbar.Collapse>

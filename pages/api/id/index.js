@@ -21,7 +21,7 @@ export default async (req, res) => {
 
     // Create the new document for this sighting
     const newSighting = new Sighting();
-    newSighting.species = speciesForSighting;
+    newSighting.species = {_id: speciesForSighting._id, name: speciesForSighting.name, thumbnail: speciesForSighting.images.thumbnail};
     newSighting.location = {
       type: "Point",
       coordinates: [Number(req.body.location.longitude), Number(req.body.location.latitude)]
@@ -53,8 +53,7 @@ export default async (req, res) => {
           }
         },
         "species._id": newSighting.species._id})
-        .exec()
-      console.log(specimenForSighting)
+        .exec();
       // If so, it just updates the specimen. If not, a new specimen is created at the location of the sighting.
       if (specimenForSighting) {
         specimenForSighting.numberOfSightings += 1;
