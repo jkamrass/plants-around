@@ -11,7 +11,10 @@ const SightingSchema = new mongoose.Schema({
   location: {type: pointSchema, required: true},
   verified: {type: String, required: true},
   verifications: [{type: Schema.Types.Mixed}],
-  images: [String],
+  images: [{
+    imageUrl: String,
+    organ: String
+  }],
   },
   {timestamps: true}
 )

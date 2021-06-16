@@ -1,5 +1,6 @@
 import Sighting from "../../../models/Sighting";
 import Species from "../../../models/Species";
+import Specimen from "../../../models/Specimen";
 import getPlantNetIdResults from "../../../utils/getPlantNetIdResults";
 import dbConnect from "../../../utils/dbConnect";
 
@@ -37,17 +38,41 @@ export default async (req, res) => {
 
     newSighting.verifications = [plantNetVerification];
     newSighting.verified = plantNetVerification.matchScore >= .5 ? "TRUE" : "PENDING";
-    
-    //plantNetVerification.matchScore = speciesMatch ? speciesMatch.score : 0;
-    // Check if plant net id matches with the species
+    // Create a new specimen if the sighting is verified
+    // TO-DO: Check if the sighting is already at a specimen location
+    if(newSighting.verified === "TRUE") {
+      // Checks to see if the sighting is of (very close to) an existing specimen
+      let specimenForSighting = await Specimen.findOne({
+        location: {
+          $near: {
+            $geometry: {
+              type: "Point",
+              coordinates: newSighting.location.coordinates
+            },
+            $maxDistance: 10
+          }
+        },
+        "species._id": newSighting.species._id})
+        .exec()
+      console.log(specimenForSighting)
+      // If so, it just updates the specimen. If not, a new specimen is created at the location of the sighting.
+      if (specimenForSighting) {
+        specimenForSighting.numberOfSightings += 1;
+      } else {
+        specimenForSighting = new Specimen();
+        specimenForSighting.location = newSighting.location;
+        specimenForSighting.species = {_id: speciesForSighting._id, name: speciesForSighting.name, thumbnail: speciesForSighting.images.thumbnail};
+        specimenForSighting.numberOfSightings = 1;
+      }
+      specimenForSighting.lastSightedAt = new Date();
+      newSighting.specimen = specimenForSighting;
+      await specimenForSighting.save();
+    }
+
+    const savedSighting = await newSighting.save();
 
     // Respond to the user either that their sighting is verified or it has been sent to be seen by a moderator
-
-    // newSighting.user = "";
-    // newSighting.verified = "TRUE";
-    // newSighting.verifications = [{source: "falling fruit"}]
-    // newSighting.us
-    return res.status(200).json({verified: newSighting.verified});
+    return res.status(200).json({verified: savedSighting.verified});
   }
   res.status(405).send("Must be a POST request");
 }
