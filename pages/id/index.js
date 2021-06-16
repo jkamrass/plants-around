@@ -3,7 +3,7 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import ImageUploader from "../../components/imageUploader";
 import SpeciesSelectionId from "../../components/speciesSelectionId";
-import { Button } from "react-bootstrap";
+import { Button, Spinner } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faCamera} from "@fortawesome/free-solid-svg-icons"
 import Image from "next/image";
@@ -23,6 +23,7 @@ function IdPage () {
   const [imagesForId, setImagesForId] = useState([]);
   const [organsInImages, setOrgansInImages] = useState([])
   const [showMap, setShowMap] = useState(false);
+  const [waitingForResponse, setWaitingForResponse] = useState(false);
 
   if(loaded) {
     var myWidget = cloudinary.createUploadWidget({
@@ -31,7 +32,6 @@ function IdPage () {
     sources: ["local", "url", "google_drive"],
     }, (error, result) => { 
       if (!error && result && result.event === "success") {
-        debugger;
         const uploadedImage = {
           id: result.info.public_id,
           url: result.info.secure_url,
@@ -83,12 +83,6 @@ function IdPage () {
     }
   }, [])
 
-  const onSpeciesSelection = (selection) => {
-    if (selection.length !== 0) {
-      setSpeciesForId(selection[0]._id);
-    }
-  };
-
   const submitSighting = () => {
     // TO-DO: Check to make sure all required information has been provided
     const imagesInProperFormatForApi = imagesForId.map(image => {
@@ -107,13 +101,18 @@ function IdPage () {
       images: imagesInProperFormatForApi
     };
 
+
+    setWaitingForResponse(true);
     axios.post("/api/id", sighting)
       .then(response => {
         console.log(response);
+
       })
       .catch(err => {
         console.log(err);
       })
+    
+    
     console.log(sighting);
   };
 
@@ -149,7 +148,7 @@ function IdPage () {
         </div>
         <div className="row mb-3">
             <div className="col-md-12">
-              <Button variant="primary" onClick={submitSighting}>Submit Sighting</Button>
+              {waitingForResponse ?   <Button variant="primary" disabled><Spinner as="span" animation="grow" size="sm" role="status" aria-hidden="true" />Loading...</Button> : <Button variant="primary" onClick={submitSighting}>Submit Sighting</Button>}
             </div>
         </div>
       </div>
