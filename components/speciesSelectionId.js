@@ -1,6 +1,5 @@
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import { Typeahead } from 'react-bootstrap-typeahead';
-import { useState } from 'react';
 
 export default function SpeciesSelectionId ({speciesOptions, selectState, onSelection}) {
   return (

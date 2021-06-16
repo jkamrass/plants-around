@@ -9,6 +9,9 @@ import {faCamera} from "@fortawesome/free-solid-svg-icons"
 import Image from "next/image";
 import IdLocationMap from "../../components/idLocationMap";
 import CurrentLocationMapMarker from "../../components/currentLocationMapMarker";
+import 'react-bootstrap-typeahead/css/Typeahead.css';
+import { Typeahead } from 'react-bootstrap-typeahead';
+import IdImageCard from "../../components/idImageCard";
 
 function IdPage () {
   const [loaded, setLoaded] = useState(false);
@@ -19,7 +22,7 @@ function IdPage () {
   const [speciesForId, setSpeciesForId] = useState([]);
   const [imagesForId, setImagesForId] = useState([]);
   const [showMap, setShowMap] = useState(false);
-  console.log(imagesForId);
+
   if(loaded) {
     var myWidget = cloudinary.createUploadWidget({
     cloudName: 'plants-around', 
@@ -27,7 +30,9 @@ function IdPage () {
     sources: ["local", "url", "google_drive"],
     }, (error, result) => { 
       if (!error && result && result.event === "success") {
+        debugger;
         const uploadedImage = {
+          id: result.info.public_id,
           url: result.info.secure_url,
           thumbnail: result.info.thumbnail_url
         }
@@ -95,31 +100,13 @@ function IdPage () {
           </div>
           <div className="row mb-3">
             <div className="col-md-12">
-              <h2>What does it look like?</h2>
+              <h2>Your Pictures:</h2>
               <Button variant="outline-primary" onClick={() => myWidget.open()}><FontAwesomeIcon icon={faCamera} /></Button>
               <div className="thumbnail-container">
-                {imagesForId.map((image, index) => {
+                {imagesForId.map((image) => {
                   return (
-                    <div className="col-sm-6" key={index}>
-                      <div className="card">
-                          <div className="row g-0">
-                            <div className="col-6">
-                              <Image
-                                src={`${image.url}`}
-                                height={250}
-                                width={250}
-                                layout="responsive"
-                                className="card-img-top img-thumbnail"
-                                alt="..." />
-                            </div>
-                            <div className="col-6 text-start">
-                              <div className="card-body">
-                                <h6 className="card-title">Image #{index+1}</h6>
-                                <p className="card-text text-left">Plant Part:</p>
-                              </div>
-                            </div>
-                          </div>
-                      </div>
+                    <div className="col-sm-6" key={image.id}>
+                      <IdImageCard image={image} setImages={setImagesForId} />
                     </div>
                   )
                 })}
