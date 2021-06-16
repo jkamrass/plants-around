@@ -47,7 +47,7 @@ export default async (req, res) => {
     // newSighting.verified = "TRUE";
     // newSighting.verifications = [{source: "falling fruit"}]
     // newSighting.us
-    return res.status(200).json("It worked");
+    return res.status(200).json({verified: newSighting.verified});
   }
   res.status(405).send("Must be a POST request");
 }

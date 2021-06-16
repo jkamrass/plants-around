@@ -71,7 +71,6 @@ function IdPage () {
     }
   }
   const onMapClick = ({x, y, lng, lat, event}) => {
-    debugger;
     setGeoLocation({longitude: lng, latitude: lat})
   }
 
@@ -105,15 +104,11 @@ function IdPage () {
     setWaitingForResponse(true);
     axios.post("/api/id", sighting)
       .then(response => {
-        console.log(response);
-
+        console.log(response.data.verified);
       })
       .catch(err => {
         console.log(err);
       })
-    
-    
-    console.log(sighting);
   };
 
   return (
