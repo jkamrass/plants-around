@@ -11,10 +11,10 @@ import IdLocationMap from "../../components/idLocationMap";
 import CurrentLocationMapMarker from "../../components/currentLocationMapMarker";
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import { Typeahead } from 'react-bootstrap-typeahead';
-import IdImageCard from "../../components/idImageCard";
+import IdImageCard from "../../components/idPage/idImageCard";
+import IdPicturesSection from "../../components/idPage/idPicturesSection";
 
 function IdPage () {
-  const [loaded, setLoaded] = useState(false);
   const [geoLocation, setGeoLocation] = useState(null);
   const [geoLocationAccuracy, setGeoLocationAccuracy] = useState(null);
   const [geoLocationError, setGeoLocationError] = useState(null);
@@ -25,25 +25,6 @@ function IdPage () {
   const [showMap, setShowMap] = useState(false);
   const [waitingForResponse, setWaitingForResponse] = useState(false);
 
-  if(loaded) {
-    var myWidget = cloudinary.createUploadWidget({
-    cloudName: 'plants-around', 
-    uploadPreset: 'testing',
-    sources: ["local", "url", "google_drive"],
-    }, (error, result) => { 
-      if (!error && result && result.event === "success") {
-        const uploadedImage = {
-          id: result.info.public_id,
-          url: result.info.secure_url,
-          thumbnail: result.info.thumbnail_url,
-          organ: []
-        }
-        setImagesForId((prevState) => [...prevState, uploadedImage]);
-      }
-    }
-    )
-  }
-
   useEffect(() => {
     // Fetch the possible species to choose from
     axios.get("/api/species")
@@ -53,15 +34,6 @@ function IdPage () {
       .catch(error => {
         console.log(error);
       })
-    // Load the Upload Widget from cloudinary
-    const script = document.createElement('script');
-    script.src = "https://upload-widget.cloudinary.com/global/all.js";
-    script.async = true;
-    script.onload = () => setLoaded(true);
-    document.body.appendChild(script);
-  return () => {
-      document.body.removeChild(script);
-    }
   }, []);
 
   const onLocationUpdate = (position) => {
@@ -122,21 +94,7 @@ function IdPage () {
             <h4>Plant:</h4>
             <SpeciesSelectionId speciesOptions={speciesOptions} selectState={speciesForId} onSelection={setSpeciesForId}/>
           </div>
-          <div className="row mb-3">
-            <div className="col-md-12">
-              <h4>Pictures:</h4>
-              <Button variant="outline-primary" onClick={() => myWidget.open()}><FontAwesomeIcon icon={faCamera} /></Button>
-              <div className="thumbnail-container">
-                {imagesForId.map((image) => {
-                  return (
-                    <div className="col-sm-6" key={image.id}>
-                      <IdImageCard image={image} setImages={setImagesForId} />
-                    </div>
-                  )
-                })}
-              </div>
-            </div>
-          </div>
+          <IdPicturesSection imagesForId={imagesForId} setImagesForId={setImagesForId}/>
           <div className="row mb-3">
             <div className="col-md-12">
               <h4>Location</h4>
