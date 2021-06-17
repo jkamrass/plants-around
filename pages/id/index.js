@@ -50,6 +50,14 @@ function IdPage () {
         console.log(err);
       })
   };
+
+  const isSightingComplete = () => {
+    if (locationOfId && speciesForId.length !== 0 && imagesForId.length !== 0) {
+      return true;
+    };
+    return false;
+  };
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -60,7 +68,7 @@ function IdPage () {
           <SpeciesSelectionId speciesOptions={speciesOptions} speciesForId={speciesForId} setSpeciesForId={setSpeciesForId}/>
           <IdPicturesSection imagesForId={imagesForId} setImagesForId={setImagesForId}/>
           <IdLocationSection locationOfId={locationOfId} setLocationOfId={setLocationOfId}/>
-          {waitingForResponse ?   <Button variant="primary" disabled><Spinner as="span" animation="grow" size="sm" role="status" aria-hidden="true" />Loading...</Button> : <Button variant="primary" onClick={submitSighting}>Submit Sighting</Button>}
+          {waitingForResponse ? <Button variant="primary" disabled><Spinner as="span" animation="grow" size="sm" role="status" aria-hidden="true" />Loading...</Button> : <Button variant="primary" onClick={submitSighting} disabled={!isSightingComplete()}>Submit Sighting</Button>}
         </div>
         <div className="row mb-3">
             <div className="col-md-12">

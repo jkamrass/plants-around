@@ -20,7 +20,7 @@ const IdPicturesSection = ({imagesForId, setImagesForId}) => {
     }
   }, [])
 
-  if(loaded) {
+  if(loaded & !myWidget) {
     var myWidget = cloudinary.createUploadWidget({
     cloudName: 'plants-around', 
     uploadPreset: 'testing',
