@@ -13,6 +13,7 @@ function IdPage () {
   const [geoLocation, setGeoLocation] = useState(null);
   const [geoLocationAccuracy, setGeoLocationAccuracy] = useState(null);
   const [geoLocationError, setGeoLocationError] = useState(null);
+  const [locationOfId, setLocationOfId] = useState(null);
   const [speciesOptions, setSpeciesOptions] = useState([]);
   const [speciesForId, setSpeciesForId] = useState([]);
   const [imagesForId, setImagesForId] = useState([]);
@@ -30,29 +31,27 @@ function IdPage () {
   }, []);
 
   const onLocationUpdate = (position) => {
-    console.log(position);
+    console.log(position.coords.accuracy);
     if (!geoLocationAccuracy || position.coords.accuracy < geoLocationAccuracy) {
       setGeoLocation({longitude: position.coords.longitude, latitude: position.coords.latitude});
       setGeoLocationAccuracy(position.coords.accuracy);
     }
-  }
+  };
+  const onFailedGeolocation = (error) => {
+    setGeoLocationError(error.message);
+  };
 
-
-  useEffect(() => {
-    locationWatchId.current = navigator.geolocation.watchPosition(onLocationUpdate);
-    return cancelLocationWatch;
-  }, [])
-
-  // const stopLocationWatching = () => {
-  //   console.log('clear watch called');
-  //   navigator.geolocation.clearWatch(geoId);
-  // }
   const cancelLocationWatch = () => {
     if (locationWatchId.current && navigator.geolocation) {
       console.log('clear watch called');
       navigator.geolocation.clearWatch(locationWatchId.current);
     }
   };
+
+  useEffect(() => {
+    locationWatchId.current = navigator.geolocation.watchPosition(onLocationUpdate, onFailedGeolocation, {enableHighAccuracy: true});
+    return cancelLocationWatch;
+  }, [])
 
   const submitSighting = () => {
     // TO-DO: Check to make sure all required information has been provided
@@ -92,7 +91,7 @@ function IdPage () {
             <SpeciesSelectionId speciesOptions={speciesOptions} selectState={speciesForId} onSelection={setSpeciesForId}/>
           </div>
           <IdPicturesSection imagesForId={imagesForId} setImagesForId={setImagesForId}/>
-          <IdLocationSection geoLocation={geoLocation} setGeoLocation={setGeoLocation} cancelLocationWatch={cancelLocationWatch}/>
+          <IdLocationSection locationOfId={locationOfId} setLocationOfId={setLocationOfId} geoLocation={geoLocation} setGeoLocation={setGeoLocation} cancelLocationWatch={cancelLocationWatch}/>
         </div>
         <div className="row mb-3">
             <div className="col-md-12">

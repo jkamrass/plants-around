@@ -5,15 +5,24 @@ import { Button, Modal } from "react-bootstrap";
 import CurrentLocationMapMarker from "../currentLocationMapMarker";
 import IdLocationMap from "../idLocationMap";
 
-const IdLocationSection = ({geoLocation, setGeoLocation, cancelLocationWatch}) => {
+const IdLocationSection = ({geoLocation, setGeoLocation, cancelLocationWatch, locationOfId, setLocationOfId}) => {
   const [showMap, setShowMap] = useState(false);
+  const [centerOfMap, setCenterOfMap] = useState();
+  const [mapMarkerLocation, setMapMarkerLocation] = useState();
   const handleClose = () => setShowMap(false);
-  const handleShow = () => setShowMap(true);
-  const onMapClick = ({x, y, lng, lat, event}) => {
-    setGeoLocation({longitude: lng, latitude: lat})
-  }
-  if (showMap) {
+  const handleShow = () => {
     cancelLocationWatch();
+    setCenterOfMap(locationOfId || geoLocation);
+    setMapMarkerLocation(locationOfId || geoLocation);
+    setShowMap(true);
+  }
+  const onMapClick = ({x, y, lng, lat, event}) => {
+    setMapMarkerLocation({longitude: lng, latitude: lat});
+    // setGeoLocation({longitude: lng, latitude: lat})
+  }
+  const handleSetLocationClick = () => {
+    setLocationOfId(mapMarkerLocation);
+    setShowMap(false);
   }
 
   return (
@@ -26,12 +35,12 @@ const IdLocationSection = ({geoLocation, setGeoLocation, cancelLocationWatch}) =
         </div>
       </div>
       <Modal show={showMap} onHide={handleClose} backdropClassName="map-modal-dimensions">
-        <Modal.Body>{showMap ? <IdLocationMap searchLocation={geoLocation} onMapClick={onMapClick}><CurrentLocationMapMarker lng={geoLocation.longitude} lat={geoLocation.latitude}/></IdLocationMap> : null}</Modal.Body>
+        <Modal.Body>{showMap ? <IdLocationMap searchLocation={centerOfMap} onMapClick={onMapClick}><CurrentLocationMapMarker lng={mapMarkerLocation.longitude} lat={mapMarkerLocation.latitude}/></IdLocationMap> : null}</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleClose}>
+          <Button variant="primary" onClick={handleSetLocationClick}>
             Set Location
           </Button>
         </Modal.Footer>
