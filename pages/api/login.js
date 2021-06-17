@@ -9,5 +9,11 @@ export default async (req, res) => {
     return res.status(404).send("user not found");
   }
   const recentSightings = await Sighting.find({user: user}).sort({createdAt: -1}).limit(5).exec();
-  res.status(200).json({...user, recentSightings});
+  const response = {
+    _id: user._id,
+    username: user.username,
+    verifiedSightings: user.verifiedSightings,
+    recentSightings: recentSightings
+  };
+  res.status(200).json(response);
 }
