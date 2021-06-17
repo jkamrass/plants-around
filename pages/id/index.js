@@ -1,13 +1,17 @@
 import axios from "axios";
 import Head from "next/head";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import SpeciesSelectionId from "../../components/speciesSelectionId";
 import { Button, Spinner } from "react-bootstrap";
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import IdPicturesSection from "../../components/idPage/idPicturesSection";
 import IdLocationSection from "../../components/idPage/idLocationSection";
+import UserContext from "../../components/userContext";
+import { useRouter } from "next/router";
 
 function IdPage () {
+  const {user, setUser} = useContext(UserContext);
+  const router = useRouter();
   const [locationOfId, setLocationOfId] = useState(null);
   const [speciesOptions, setSpeciesOptions] = useState([]);
   const [speciesForId, setSpeciesForId] = useState([]);
@@ -41,9 +45,13 @@ function IdPage () {
       species: speciesForId[0]._id,
       images: imagesInProperFormatForApi
     };
+
+    sighting ? sighting.user = user._id : null;
+
     setWaitingForResponse(true);
     axios.post("/api/id", sighting)
       .then(response => {
+        router.push('/sightings');
         console.log(response.data.verified);
       })
       .catch(err => {

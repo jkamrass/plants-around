@@ -16,7 +16,7 @@ function SightingsPage () {
         console.log(response); 
         setSightingNeedingVerification(response.data[0]);
       })
-    // axios.get(`/api/user/${user._id}/recent`)
+    // axios.get(`/api/users/${user._id}/recent`)
     //   .then(response => {
     //     setRecentSightings(response.data);
     //   })
