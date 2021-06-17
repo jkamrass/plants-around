@@ -5,7 +5,7 @@ import ImageUploader from "../../components/imageUploader";
 import SpeciesSelectionId from "../../components/speciesSelectionId";
 import { Button, Spinner } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faCamera} from "@fortawesome/free-solid-svg-icons"
+import {faCamera, faMapMarkerAlt} from "@fortawesome/free-solid-svg-icons"
 import Image from "next/image";
 import IdLocationMap from "../../components/idLocationMap";
 import CurrentLocationMapMarker from "../../components/currentLocationMapMarker";
@@ -115,13 +115,16 @@ function IdPage () {
     <div className="container-fluid">
       <div className="row">
         <div className="col-md-6 offset-md-3">
+          <div className="row mb-3 text-center">
+            <h2>Create a Sighting</h2>
+          </div>
           <div className="row mb-3">
-            <h2>What plant is it?</h2>
+            <h4>Plant:</h4>
             <SpeciesSelectionId speciesOptions={speciesOptions} selectState={speciesForId} onSelection={setSpeciesForId}/>
           </div>
           <div className="row mb-3">
             <div className="col-md-12">
-              <h2>Your Pictures:</h2>
+              <h4>Pictures:</h4>
               <Button variant="outline-primary" onClick={() => myWidget.open()}><FontAwesomeIcon icon={faCamera} /></Button>
               <div className="thumbnail-container">
                 {imagesForId.map((image) => {
@@ -136,7 +139,8 @@ function IdPage () {
           </div>
           <div className="row mb-3">
             <div className="col-md-12">
-              <Button variant="primary" onClick={() => setShowMap(true)}>Select Location</Button>
+              <h4>Location</h4>
+              <Button variant="outline-primary" onClick={() => setShowMap(true)}><FontAwesomeIcon icon={faMapMarkerAlt} /></Button>
               {showMap ? <IdLocationMap searchLocation={geoLocation} onMapClick={onMapClick}><CurrentLocationMapMarker lng={geoLocation.longitude} lat={geoLocation.latitude}/></IdLocationMap> : null}
             </div>
           </div>
