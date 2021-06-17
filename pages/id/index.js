@@ -1,7 +1,6 @@
 import axios from "axios";
 import Head from "next/head";
 import { useEffect, useState } from "react";
-import ImageUploader from "../../components/imageUploader";
 import SpeciesSelectionId from "../../components/speciesSelectionId";
 import { Button, Spinner } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
