@@ -1,4 +1,4 @@
-import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
@@ -26,6 +26,7 @@ const IdLocationSection = ({locationOfId, setLocationOfId}) => {
       setGeoLocationAccuracy(position.coords.accuracy);
     }
   };
+
   const onFailedGeolocation = (error) => {
     setGeoLocationError(error.message);
   };
@@ -36,8 +37,6 @@ const IdLocationSection = ({locationOfId, setLocationOfId}) => {
       navigator.geolocation.clearWatch(locationWatchId.current);
     }
   };
-
-
 
   const handleClose = () => setShowMap(false);
   const handleShow = () => {
@@ -59,9 +58,8 @@ const IdLocationSection = ({locationOfId, setLocationOfId}) => {
     <>
       <div className="row mb-3">
         <div className="col-md-12">
-          <h4>Location</h4>
+          <h4>Location {locationOfId ? <span><FontAwesomeIcon icon={faCheck} color="green"/></span> : null}</h4>
           <Button variant="outline-primary" onClick={handleShow}><FontAwesomeIcon icon={faMapMarkerAlt} /></Button>
-          {/* {showMap ? <IdLocationMap searchLocation={geoLocation} onMapClick={onMapClick}><CurrentLocationMapMarker lng={geoLocation.longitude} lat={geoLocation.latitude}/></IdLocationMap> : null} */}
         </div>
       </div>
       <Modal show={showMap} onHide={handleClose} backdropClassName="map-modal-dimensions">
