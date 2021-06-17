@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCamera } from "@fortawesome/free-solid-svg-icons";
+import { faCamera, faCheck } from "@fortawesome/free-solid-svg-icons";
 import IdImageCard from "./idImageCard";
 
 
@@ -39,10 +39,17 @@ const IdPicturesSection = ({imagesForId, setImagesForId}) => {
     )
   }
 
+  const areImagesReady = () => {
+    if (imagesForId.length !== 0 && imagesForId.every((image) => image.organ.length !== 0)) {
+      return true
+    }
+    return false;
+  }
+
   return (
     <div className="row mb-3">
       <div className="col-md-12">
-        <h4>Pictures:</h4>
+        <h4>Pictures (Add up to 5): {areImagesReady() ? <span><FontAwesomeIcon icon={faCheck} color="green"/></span> : null}</h4>
         <Button variant="outline-primary" onClick={() => myWidget.open()}><FontAwesomeIcon icon={faCamera} /></Button>
         <div className="thumbnail-container">
           {imagesForId.map((image) => {

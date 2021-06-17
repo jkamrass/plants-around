@@ -52,7 +52,7 @@ function IdPage () {
   };
 
   const isSightingComplete = () => {
-    if (locationOfId && speciesForId.length !== 0 && imagesForId.length !== 0) {
+    if (locationOfId && speciesForId.length !== 0 && imagesForId.length !== 0 && imagesForId.every((image) => image.organ.length !== 0)) {
       return true;
     };
     return false;
