@@ -41,9 +41,8 @@ function Explore() {
     <div className="container-fluid">
       <div className="row text-center">
         <div className="col-md-10 offset-md-1">
-          <p>Here's the Explore page</p>
+          <h4>Plants Around You:</h4>
           {nearbySpecies ? <NearbySpeciesList nearbySpecies={nearbySpecies}/>: <p>Results Loading</p>}
-          {searchLocation ? <SpecimenSearchMap searchLocation={searchLocation} /> : <p>Loading</p>}
         </div>
       </div>
     </div>

@@ -14,7 +14,9 @@ export default function NavbarMain () {
           <Link href="/explore" passHref><Nav.Link><FontAwesomeIcon icon={faMap} /> Explore</Nav.Link></Link>
           <Link href="/id" passHref><Nav.Link><FontAwesomeIcon icon={faCamera} /> Id</Nav.Link></Link>
           <Link href="/sightings" passHref><Nav.Link><FontAwesomeIcon icon={faSeedling} /> Sightings</Nav.Link></Link>
-          <Nav.Link>Login/Signup</Nav.Link>
+          <Link href="/login" passHref><Nav.Link>Login</Nav.Link></Link>
+          <Link href="/logout" passHref><Nav.Link>Logout</Nav.Link></Link>
+          <Link href="/signup" passHref><Nav.Link>Sign Up</Nav.Link></Link>
         </Nav>
       </Navbar.Collapse>
     </Navbar>

@@ -1,5 +1,6 @@
 import Link from "next/link"
 import Image from "next/image";
+import { Button } from "react-bootstrap";
 
 export default function NearbySpeciesList ({nearbySpecies}) {
   return (
@@ -7,8 +8,9 @@ export default function NearbySpeciesList ({nearbySpecies}) {
       {nearbySpecies.map((aNearbySpecies) => {
         return (
           <div className="col-sm-3" key={aNearbySpecies._id._id}>
-            <div className="card">
+            <div className="card shadow">
               <Link href={`/explore/${aNearbySpecies._id._id}`}>
+                <a>
                 <div className="row g-0">
                   <div className="col-6">
                     <Image
@@ -26,6 +28,7 @@ export default function NearbySpeciesList ({nearbySpecies}) {
                     </div>
                   </div>
                 </div>
+                </a>
               </Link>
             </div>
           </div>
@@ -34,3 +37,33 @@ export default function NearbySpeciesList ({nearbySpecies}) {
     </div>
   )
 }
+
+{/* <div className="card shadow">
+<div className="row g-0">
+  <div className="col-6">
+    <Image
+      src={`${image.url}`}
+      height={250}
+      width={250}
+      layout="responsive"
+      className="card-img-top img-thumbnail"
+      alt="..." />
+  </div>
+  <div className="col-6">
+    <div className="card-body">
+      <div className="text-end">
+        <Button variant="secondary"><FontAwesomeIcon icon={faTrash} /></Button>
+      </div>
+      <h6 className="card-title">Plant Part:</h6>
+      <Typeahead 
+        onChange={editPlantOrganForImage}
+        options={organOptions}
+        id="species"
+        labelKey="organ"
+        selected={image.organ}
+        placeholder="plant part..."
+      />
+    </div>
+  </div>
+</div>
+</div> */}

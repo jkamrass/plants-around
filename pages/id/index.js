@@ -63,7 +63,7 @@ function IdPage () {
       <div className="row">
         <div className="col-md-6 offset-md-3">
           <div className="row mb-3 text-center">
-            <h2>Create a Sighting</h2>
+            <h2>What Did You Find?</h2>
           </div>
           <SpeciesSelectionId speciesOptions={speciesOptions} speciesForId={speciesForId} setSpeciesForId={setSpeciesForId}/>
           <IdPicturesSection imagesForId={imagesForId} setImagesForId={setImagesForId}/>
