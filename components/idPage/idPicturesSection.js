@@ -7,7 +7,7 @@ import IdImageCard from "./idImageCard";
 
 const IdPicturesSection = ({imagesForId, setImagesForId}) => {
   const [loaded, setLoaded] = useState(false);
-  const [cloudinaryWidget, setCloudinaryWidget] = useState(false);
+  const [cloudinaryWidget, setCloudinaryWidget] = useState();
 
   useEffect(() => {
     // Load the Upload Widget from cloudinary
@@ -20,6 +20,16 @@ const IdPicturesSection = ({imagesForId, setImagesForId}) => {
       document.body.removeChild(script);
     }
   }, [])
+
+  //Remove the widget iframe from memory when component unmounts
+  // useEffect(() => {
+  //   return () => {
+  //     if(cloudinaryWidget) {
+  //       debugger;
+  //       cloudinaryWidget.destroy();
+  //     };
+  //   };
+  // });
 
   if(loaded & !cloudinaryWidget) {
     const myWidget = cloudinary.createUploadWidget({
@@ -54,7 +64,7 @@ const IdPicturesSection = ({imagesForId, setImagesForId}) => {
       <div className="col-md-12">
         <h4>Pictures (Add up to 5): {areImagesReady() ? <span><FontAwesomeIcon icon={faCheck} color="green"/></span> : null}</h4>
         <Button variant="outline-primary" onClick={() => cloudinaryWidget.open()}><FontAwesomeIcon icon={faCamera} /></Button>
-        <div className="thumbnail-container">
+        <div className="row thumbnail-container">
           {imagesForId.map((image) => {
             return (
               <div className="col-sm-6" key={image.id}>
