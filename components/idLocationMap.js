@@ -15,7 +15,7 @@ export default function IdLocationMap (props) {
 
   //const searchLocation = [-78.92876857, 36.01385727];
   return (
-    <div style={{ height: '90vh', width: '100%', position: 'relative'}}>
+    <div style={{ height: '80vh', width: '100%', position: 'relative'}}>
       <GoogleMapReact 
         bootstrapURLKeys={{key: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}}
         defaultCenter={{lng: searchLocation.longitude, lat: searchLocation.latitude}}
