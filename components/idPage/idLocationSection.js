@@ -1,14 +1,44 @@
 import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import CurrentLocationMapMarker from "../currentLocationMapMarker";
 import IdLocationMap from "../idLocationMap";
 
-const IdLocationSection = ({geoLocation, setGeoLocation, cancelLocationWatch, locationOfId, setLocationOfId}) => {
+const IdLocationSection = ({locationOfId, setLocationOfId}) => {
+  const locationWatchId = useRef(null);
+  const [geoLocation, setGeoLocation] = useState(null);
+  const [geoLocationAccuracy, setGeoLocationAccuracy] = useState(null);
+  const [geoLocationError, setGeoLocationError] = useState(null);
   const [showMap, setShowMap] = useState(false);
   const [centerOfMap, setCenterOfMap] = useState();
   const [mapMarkerLocation, setMapMarkerLocation] = useState();
+
+  useEffect(() => {
+    locationWatchId.current = navigator.geolocation.watchPosition(onLocationUpdate, onFailedGeolocation, {enableHighAccuracy: true});
+    return cancelLocationWatch;
+  }, [])
+
+  const onLocationUpdate = (position) => {
+    console.log(position.coords.accuracy);
+    if (!geoLocationAccuracy || position.coords.accuracy < geoLocationAccuracy) {
+      setGeoLocation({longitude: position.coords.longitude, latitude: position.coords.latitude});
+      setGeoLocationAccuracy(position.coords.accuracy);
+    }
+  };
+  const onFailedGeolocation = (error) => {
+    setGeoLocationError(error.message);
+  };
+
+  const cancelLocationWatch = () => {
+    if (locationWatchId.current && navigator.geolocation) {
+      console.log('clear watch called');
+      navigator.geolocation.clearWatch(locationWatchId.current);
+    }
+  };
+
+
+
   const handleClose = () => setShowMap(false);
   const handleShow = () => {
     cancelLocationWatch();
