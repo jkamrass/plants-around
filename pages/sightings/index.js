@@ -2,8 +2,9 @@ import axios from "axios"
 import { Button } from "react-bootstrap";
 import Image from "next/image";
 import { useEffect, useState } from "react"
+import RecentSightings from "../../components/recentSightings";
 
-function VerifyPage () {
+function SightingsPage () {
   const [sightingNeedingVerification, setSightingNeedingVerification] = useState(false);
   const [waitingForFetch, setWaitingForFetch] = useState(true);
   useEffect(() => {
@@ -82,9 +83,10 @@ function VerifyPage () {
 
   return (
     <div className="container-fluid">
+      <RecentSightings/>
       { sightingNeedingVerification ? generateSighting() : generateLoadingSighting()}
     </div>
   )
 }
 
-export default VerifyPage
+export default SightingsPage
