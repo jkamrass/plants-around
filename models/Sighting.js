@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import pointSchema from "./PointSchema";
+import pointSchema from "./pointSchema";
 
 const SightingSchema = new mongoose.Schema({
   species: {
