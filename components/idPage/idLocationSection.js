@@ -58,7 +58,7 @@ const IdLocationSection = ({locationOfId, setLocationOfId}) => {
     <>
       <div className="row mb-3">
         <div className="col-md-12">
-          <h4>Location {locationOfId ? <span><FontAwesomeIcon icon={faCheck} color="green"/></span> : null}</h4>
+          <h4>Location: {locationOfId ? <span><FontAwesomeIcon icon={faCheck} color="green"/></span> : null}</h4>
           <Button variant="outline-primary" onClick={handleShow}><FontAwesomeIcon icon={faMapMarkerAlt} /></Button>
         </div>
       </div>

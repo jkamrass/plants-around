@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import SpeciesSelectionId from "../../components/speciesSelectionId";
 import { Button, Spinner } from "react-bootstrap";
 import 'react-bootstrap-typeahead/css/Typeahead.css';
-import { Typeahead } from 'react-bootstrap-typeahead';
 import IdPicturesSection from "../../components/idPage/idPicturesSection";
 import IdLocationSection from "../../components/idPage/idLocationSection";
 
@@ -51,7 +50,6 @@ function IdPage () {
         console.log(err);
       })
   };
-
   return (
     <div className="container-fluid">
       <div className="row">
@@ -59,16 +57,14 @@ function IdPage () {
           <div className="row mb-3 text-center">
             <h2>Create a Sighting</h2>
           </div>
-          <div className="row mb-3">
-            <h4>Plant:</h4>
-            <SpeciesSelectionId speciesOptions={speciesOptions} selectState={speciesForId} onSelection={setSpeciesForId}/>
-          </div>
+          <SpeciesSelectionId speciesOptions={speciesOptions} speciesForId={speciesForId} setSpeciesForId={setSpeciesForId}/>
           <IdPicturesSection imagesForId={imagesForId} setImagesForId={setImagesForId}/>
           <IdLocationSection locationOfId={locationOfId} setLocationOfId={setLocationOfId}/>
+          {waitingForResponse ?   <Button variant="primary" disabled><Spinner as="span" animation="grow" size="sm" role="status" aria-hidden="true" />Loading...</Button> : <Button variant="primary" onClick={submitSighting}>Submit Sighting</Button>}
         </div>
         <div className="row mb-3">
             <div className="col-md-12">
-              {waitingForResponse ?   <Button variant="primary" disabled><Spinner as="span" animation="grow" size="sm" role="status" aria-hidden="true" />Loading...</Button> : <Button variant="primary" onClick={submitSighting}>Submit Sighting</Button>}
+
             </div>
         </div>
       </div>
