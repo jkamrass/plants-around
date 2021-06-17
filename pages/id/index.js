@@ -3,15 +3,10 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import SpeciesSelectionId from "../../components/speciesSelectionId";
 import { Button, Spinner } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faCamera, faMapMarkerAlt} from "@fortawesome/free-solid-svg-icons"
-import Image from "next/image";
-import IdLocationMap from "../../components/idLocationMap";
-import CurrentLocationMapMarker from "../../components/currentLocationMapMarker";
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import { Typeahead } from 'react-bootstrap-typeahead';
-import IdImageCard from "../../components/idPage/idImageCard";
 import IdPicturesSection from "../../components/idPage/idPicturesSection";
+import IdLocationSection from "../../components/idPage/idLocationSection";
 
 function IdPage () {
   const [geoLocation, setGeoLocation] = useState(null);
@@ -20,8 +15,6 @@ function IdPage () {
   const [speciesOptions, setSpeciesOptions] = useState([]);
   const [speciesForId, setSpeciesForId] = useState([]);
   const [imagesForId, setImagesForId] = useState([]);
-  const [organsInImages, setOrgansInImages] = useState([])
-  const [showMap, setShowMap] = useState(false);
   const [waitingForResponse, setWaitingForResponse] = useState(false);
 
   useEffect(() => {
@@ -41,9 +34,7 @@ function IdPage () {
       setGeoLocationAccuracy(position.coords.accuracy);
     }
   }
-  const onMapClick = ({x, y, lng, lat, event}) => {
-    setGeoLocation({longitude: lng, latitude: lat})
-  }
+
 
   useEffect(() => {
     const geoId = navigator.geolocation.watchPosition(onLocationUpdate);
@@ -53,6 +44,10 @@ function IdPage () {
     }
   }, [])
 
+  const stopLocationWatching = () => {
+    navigator.geolocation.clearWatch(geoId);
+  }
+
   const submitSighting = () => {
     // TO-DO: Check to make sure all required information has been provided
     const imagesInProperFormatForApi = imagesForId.map(image => {
@@ -61,7 +56,6 @@ function IdPage () {
         organ: image.organ[0]
       }
     })
-    
     const sighting = {
       location: {
         longitude: geoLocation.longitude,
@@ -70,8 +64,6 @@ function IdPage () {
       species: speciesForId[0]._id,
       images: imagesInProperFormatForApi
     };
-
-
     setWaitingForResponse(true);
     axios.post("/api/id", sighting)
       .then(response => {
@@ -94,13 +86,7 @@ function IdPage () {
             <SpeciesSelectionId speciesOptions={speciesOptions} selectState={speciesForId} onSelection={setSpeciesForId}/>
           </div>
           <IdPicturesSection imagesForId={imagesForId} setImagesForId={setImagesForId}/>
-          <div className="row mb-3">
-            <div className="col-md-12">
-              <h4>Location</h4>
-              <Button variant="outline-primary" onClick={() => setShowMap(true)}><FontAwesomeIcon icon={faMapMarkerAlt} /></Button>
-              {showMap ? <IdLocationMap searchLocation={geoLocation} onMapClick={onMapClick}><CurrentLocationMapMarker lng={geoLocation.longitude} lat={geoLocation.latitude}/></IdLocationMap> : null}
-            </div>
-          </div>
+          <IdLocationSection geoLocation={geoLocation} setGeoLocation={setGeoLocation} stopLocationWatching={stopLocationWatching}/>
         </div>
         <div className="row mb-3">
             <div className="col-md-12">
