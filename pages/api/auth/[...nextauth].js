@@ -38,6 +38,12 @@ export default NextAuth({
   // A database is optional, but required to persist accounts in a database
   database: process.env.MONGODB_URI,
   secret: process.env.SECRET,
+  session: {
+    jwt: true
+  },
+  jwt: {
+    secret: process.env.SECRET
+  },
   callbacks: {
     async session(session, token) {
       // token is the user object returned from the database

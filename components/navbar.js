@@ -2,6 +2,7 @@ import { Navbar, Nav } from "react-bootstrap";
 import Link from 'next/link';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera, faCheckSquare, faMap } from "@fortawesome/free-solid-svg-icons";
+import { signIn } from "next-auth/client";
 
 export default function NavbarMain () {
   return (
@@ -14,7 +15,7 @@ export default function NavbarMain () {
           <Link href="/explore" passHref><Nav.Link><FontAwesomeIcon icon={faMap} /> Verify</Nav.Link></Link>
           <Link href="/id" passHref><Nav.Link><FontAwesomeIcon icon={faCamera} /> Id</Nav.Link></Link>
           <Link href="/verify" passHref><Nav.Link><FontAwesomeIcon icon={faCheckSquare} /> Verify</Nav.Link></Link>
-          <Nav.Link href="#link">Login/Signup</Nav.Link>
+          <Nav.Link onClick={() => signIn()}>Login/Signup</Nav.Link>
         </Nav>
       </Navbar.Collapse>
     </Navbar>
