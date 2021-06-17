@@ -70,11 +70,6 @@ function IdPage () {
           <IdLocationSection locationOfId={locationOfId} setLocationOfId={setLocationOfId}/>
           {waitingForResponse ? <Button variant="primary" disabled><Spinner as="span" animation="grow" size="sm" role="status" aria-hidden="true" />Loading...</Button> : <Button variant="primary" onClick={submitSighting} disabled={!isSightingComplete()}>Submit Sighting</Button>}
         </div>
-        <div className="row mb-3">
-            <div className="col-md-12">
-
-            </div>
-        </div>
       </div>
     </div>
   )

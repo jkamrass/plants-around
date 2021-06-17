@@ -7,6 +7,7 @@ import IdImageCard from "./idImageCard";
 
 const IdPicturesSection = ({imagesForId, setImagesForId}) => {
   const [loaded, setLoaded] = useState(false);
+  const [cloudinaryWidget, setCloudinaryWidget] = useState(false);
 
   useEffect(() => {
     // Load the Upload Widget from cloudinary
@@ -20,8 +21,8 @@ const IdPicturesSection = ({imagesForId, setImagesForId}) => {
     }
   }, [])
 
-  if(loaded & !myWidget) {
-    var myWidget = cloudinary.createUploadWidget({
+  if(loaded & !cloudinaryWidget) {
+    const myWidget = cloudinary.createUploadWidget({
     cloudName: 'plants-around', 
     uploadPreset: 'testing',
     sources: ["local", "url", "google_drive"],
@@ -37,6 +38,8 @@ const IdPicturesSection = ({imagesForId, setImagesForId}) => {
       }
     }
     )
+
+    setCloudinaryWidget(myWidget);
   }
 
   const areImagesReady = () => {
@@ -50,7 +53,7 @@ const IdPicturesSection = ({imagesForId, setImagesForId}) => {
     <div className="row mb-3">
       <div className="col-md-12">
         <h4>Pictures (Add up to 5): {areImagesReady() ? <span><FontAwesomeIcon icon={faCheck} color="green"/></span> : null}</h4>
-        <Button variant="outline-primary" onClick={() => myWidget.open()}><FontAwesomeIcon icon={faCamera} /></Button>
+        <Button variant="outline-primary" onClick={() => cloudinaryWidget.open()}><FontAwesomeIcon icon={faCamera} /></Button>
         <div className="thumbnail-container">
           {imagesForId.map((image) => {
             return (
