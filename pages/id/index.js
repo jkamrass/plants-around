@@ -1,6 +1,6 @@
 import axios from "axios";
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SpeciesSelectionId from "../../components/speciesSelectionId";
 import { Button, Spinner } from "react-bootstrap";
 import 'react-bootstrap-typeahead/css/Typeahead.css';
@@ -9,6 +9,7 @@ import IdPicturesSection from "../../components/idPage/idPicturesSection";
 import IdLocationSection from "../../components/idPage/idLocationSection";
 
 function IdPage () {
+  const locationWatchId = useRef(null);
   const [geoLocation, setGeoLocation] = useState(null);
   const [geoLocationAccuracy, setGeoLocationAccuracy] = useState(null);
   const [geoLocationError, setGeoLocationError] = useState(null);
@@ -29,6 +30,7 @@ function IdPage () {
   }, []);
 
   const onLocationUpdate = (position) => {
+    console.log(position);
     if (!geoLocationAccuracy || position.coords.accuracy < geoLocationAccuracy) {
       setGeoLocation({longitude: position.coords.longitude, latitude: position.coords.latitude});
       setGeoLocationAccuracy(position.coords.accuracy);
@@ -37,16 +39,20 @@ function IdPage () {
 
 
   useEffect(() => {
-    const geoId = navigator.geolocation.watchPosition(onLocationUpdate);
-    return () => {
-      console.log('Clear watch called');
-      navigator.geolocation.clearWatch(geoId);
-    }
+    locationWatchId.current = navigator.geolocation.watchPosition(onLocationUpdate);
+    return cancelLocationWatch;
   }, [])
 
-  const stopLocationWatching = () => {
-    navigator.geolocation.clearWatch(geoId);
-  }
+  // const stopLocationWatching = () => {
+  //   console.log('clear watch called');
+  //   navigator.geolocation.clearWatch(geoId);
+  // }
+  const cancelLocationWatch = () => {
+    if (locationWatchId.current && navigator.geolocation) {
+      console.log('clear watch called');
+      navigator.geolocation.clearWatch(locationWatchId.current);
+    }
+  };
 
   const submitSighting = () => {
     // TO-DO: Check to make sure all required information has been provided
@@ -86,7 +92,7 @@ function IdPage () {
             <SpeciesSelectionId speciesOptions={speciesOptions} selectState={speciesForId} onSelection={setSpeciesForId}/>
           </div>
           <IdPicturesSection imagesForId={imagesForId} setImagesForId={setImagesForId}/>
-          <IdLocationSection geoLocation={geoLocation} setGeoLocation={setGeoLocation} stopLocationWatching={stopLocationWatching}/>
+          <IdLocationSection geoLocation={geoLocation} setGeoLocation={setGeoLocation} cancelLocationWatch={cancelLocationWatch}/>
         </div>
         <div className="row mb-3">
             <div className="col-md-12">

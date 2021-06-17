@@ -5,7 +5,7 @@ import { Button, Modal } from "react-bootstrap";
 import CurrentLocationMapMarker from "../currentLocationMapMarker";
 import IdLocationMap from "../idLocationMap";
 
-const IdLocationSection = ({geoLocation, setGeoLocation, geoId}) => {
+const IdLocationSection = ({geoLocation, setGeoLocation, cancelLocationWatch}) => {
   const [showMap, setShowMap] = useState(false);
   const handleClose = () => setShowMap(false);
   const handleShow = () => setShowMap(true);
@@ -13,8 +13,7 @@ const IdLocationSection = ({geoLocation, setGeoLocation, geoId}) => {
     setGeoLocation({longitude: lng, latitude: lat})
   }
   if (showMap) {
-    console.log('Clear watch called');
-    navigator.geolocation.clearWatch(geoId);
+    cancelLocationWatch();
   }
 
   return (
