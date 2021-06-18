@@ -1,5 +1,6 @@
 import Image from "next/image"
 import { Spinner } from "react-bootstrap"
+import Moment from "react-moment"
 
 export default function RecentSightings ({recentSightings}) {
 
@@ -30,7 +31,7 @@ export default function RecentSightings ({recentSightings}) {
               </div>
               <div className="col-6">
                 <div className="card-body">
-                  <h6 className="card-title">{sighting.createdAt}</h6>
+                  <h6 className="card-title"><Moment format="MM/DD/YY">{sighting.createdAt}</Moment></h6>
                   <p className="card-text">Status: {sighting.verified}</p>
                 </div>
               </div>
