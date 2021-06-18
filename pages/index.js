@@ -3,9 +3,19 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 import { faMap } from '@fortawesome/free-solid-svg-icons'
-import { Button } from 'react-bootstrap'
+import { Button, Spinner } from 'react-bootstrap'
+import { useState } from 'react'
+import { useRouter } from 'next/router'
 
 export default function Home() {
+  const router = useRouter();
+  const [clicked, setClicked] = useState(false);
+
+  const begin = () => {
+    setClicked(true);
+    router.push("/explore");
+  }
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -14,7 +24,7 @@ export default function Home() {
             <h1>Ready to Explore</h1>
             <h1>Plants in Durham?</h1>
             <div className="col-md-12">
-              <Link href="/explore"><Button>What's Around Me?</Button></Link>
+              {clicked ? <Spinner animation="border" role="status" ><span className="sr-only">Loading...</span></Spinner> : <Button onClick={begin}>What's Around Me?</Button>}
             </div>
           </div>
         </div>
