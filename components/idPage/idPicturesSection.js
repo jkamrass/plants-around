@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Spinner } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera, faCheck } from "@fortawesome/free-solid-svg-icons";
 import IdImageCard from "./idImageCard";
@@ -63,7 +63,7 @@ const IdPicturesSection = ({imagesForId, setImagesForId}) => {
     <div className="row mb-3">
       <div className="col-md-12">
         <h4>Pictures (Add up to 5): {areImagesReady() ? <span><FontAwesomeIcon icon={faCheck} color="green"/></span> : null}</h4>
-        <Button variant="outline-primary" onClick={() => cloudinaryWidget.open()}><FontAwesomeIcon icon={faCamera} /></Button>
+        {cloudinaryWidget ? <Button variant="outline-primary" onClick={() => cloudinaryWidget.open()}><FontAwesomeIcon icon={faCamera} /></Button> : <Spinner animation="border" role="status" ><span className="sr-only">Loading...</span></Spinner> }
         <div className="row thumbnail-container">
           {imagesForId.map((image) => {
             return (

@@ -1,10 +1,15 @@
 import Image from "next/image"
+import { Spinner } from "react-bootstrap"
 
 export default function RecentSightings ({recentSightings}) {
 
   const generateSightingsList = () => {
     if(!recentSightings) {
-      return <p>Loading...</p>
+      return (
+        <Spinner animation="border" role="status" className="m-3">
+          <span className="sr-only">Loading...</span>
+        </Spinner>
+      )
     }
     if(recentSightings.length === 0) {
       return <p>No Sightings to Display</p>

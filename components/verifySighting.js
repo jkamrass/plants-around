@@ -1,5 +1,5 @@
 import {XLg, CheckLg} from "react-bootstrap-icons";
-import { Button } from "react-bootstrap";
+import { Button, Spinner } from "react-bootstrap";
 import Image from "next/image";
 import { ZoomIn } from "react-bootstrap-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,11 +9,9 @@ import VerifyImageModal from "./verifyImageModal";
 export default function VerifySighting({ sightingNeedingVerification, submitVerification }) {
   const generateLoadingSighting = () => {
     return (
-        <div className="row">
-          <div className="col-md-6 offset-md-3 text-center">
-            <h3>Waiting for a sighting needing verification</h3>
-          </div>
-        </div>
+      <Spinner animation="border" role="status" className="m-3">
+        <span className="sr-only">Loading...</span>
+      </Spinner>
     )
   };
 
