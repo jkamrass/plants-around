@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearchPlus } from "@fortawesome/free-solid-svg-icons";
 import VerifyImageModal from "./verifyImageModal";
 
-export default function VerifySighting({ sightingNeedingVerification, submitVerification }) {
+export default function VerifySighting({ sightingNeedingVerification, submitVerification, verificationSubmitted, waitingForFetch}) {
   const generateLoadingSighting = () => {
     return (
       <Spinner animation="border" role="status" className="m-3">
@@ -14,6 +14,38 @@ export default function VerifySighting({ sightingNeedingVerification, submitVeri
       </Spinner>
     )
   };
+
+  const generateSubmittedMessage = () => {
+    return (
+      <div className="row">
+        <div className="col-md-12">
+          <p>Thank you for help!</p>
+        </div>
+      </div>
+    )
+  }
+
+  const generateNoSightingsMessage = () => {
+    return (
+        <div className="row">
+          <div className="col-md-12">
+            <p>None right now. Check back later!</p>
+          </div>
+        </div>
+    )
+  }
+
+  const generateMessage = () => {
+    if (verificationSubmitted) {
+      return generateSubmittedMessage();
+    }
+    if (waitingForFetch) {
+      return generateLoadingSighting();
+    }
+    if (!sightingNeedingVerification) {
+      return generateNoSightingsMessage();
+    }
+  }
 
   const generateSighting = () => {
     return (
@@ -64,7 +96,7 @@ export default function VerifySighting({ sightingNeedingVerification, submitVeri
     <div className="row">
       <div className="col-md-10 offset-md-1">
         <h3>Verify a Sighting:</h3>
-        { sightingNeedingVerification ? generateSighting() : generateLoadingSighting()}
+        { sightingNeedingVerification ? generateSighting() : generateMessage()}
       </div>
     </div>
   )

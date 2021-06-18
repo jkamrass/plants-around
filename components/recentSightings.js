@@ -15,27 +15,29 @@ export default function RecentSightings ({recentSightings}) {
       return <p>No Sightings to Display</p>
     }
     const sightingsList = recentSightings.map(sighting => {
-      <div className="col-md-2">
-        <div className="card shadow">
-          <div className="row g-0">
-            <div className="col-6">
-              <Image
-                src={`${sighting.images[0].imageUrl}`}
-                height={250}
-                width={250}
-                layout="responsive"
-                className="card-img-top img-thumbnail"
-                alt="..." />
-            </div>
-            <div className="col-6">
-              <div className="card-body">
-                <h6 className="card-title">{sighting.createdAt}</h6>
-                <p className="card-text">Status: {sighting.verified}</p>
+      return (
+        <div className="col-md-3">
+          <div className="card shadow">
+            <div className="row g-0">
+              <div className="col-6">
+                <Image
+                  src={`${sighting.images[0].imageUrl}`}
+                  height={250}
+                  width={250}
+                  layout="responsive"
+                  className="card-img-top img-thumbnail"
+                  alt="..." />
+              </div>
+              <div className="col-6">
+                <div className="card-body">
+                  <h6 className="card-title">{sighting.createdAt}</h6>
+                  <p className="card-text">Status: {sighting.verified}</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      )
     })
     return sightingsList;
   }

@@ -3,6 +3,7 @@ import Species from "../../../models/Species";
 import Specimen from "../../../models/Specimen";
 import getPlantNetIdResults from "../../../utils/getPlantNetIdResults";
 import dbConnect from "../../../utils/dbConnect";
+import User from "../../../models/User";
 
 export default async (req, res) => {
   if (req.method === "POST") {
@@ -28,6 +29,17 @@ export default async (req, res) => {
     };
     // Add images to sighting
     newSighting.images = req.body.images;
+
+    let userForSighting = null;
+    if (req.body.user) {
+      try {
+        userForSighting = await User.findById(req.body.user).exec();
+      } catch (error) {
+        userForSighting = null;
+      }
+    }
+    
+    userForSighting ? newSighting.user = userForSighting : null;
 
     // Test for plant net:
     //const imagesToId = [{imageUrl: "https://res.cloudinary.com/dk4lsu1uf/image/upload/v1623763521/Test%20Id%20Photos/Fig_Test.jpg", organ: "leaf"}];

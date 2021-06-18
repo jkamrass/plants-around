@@ -47,7 +47,7 @@ function IdPage () {
     };
 
     user ? sighting.user = user._id : null;
-
+    console.log(sighting);
     setWaitingForResponse(true);
     axios.post("/api/id", sighting)
       .then(response => {

@@ -14,15 +14,23 @@ function SightingsPage () {
   const [sightingNeedingVerification, setSightingNeedingVerification] = useState(false);
   const [waitingForFetch, setWaitingForFetch] = useState(true);
   const [recentSightings, setRecentSightings] = useState();
+  const [verificationSubmitted, setVerificationSubmitted] = useState(false);
+  const [userCanVerify, setUserCanVerify] = useState(false);
   useEffect(() => {
     axios.get("/api/verify")
       .then(response => {
         console.log(response); 
+        setWaitingForFetch(false);
         setSightingNeedingVerification(response.data[0]);
+      })
+      .catch(err => {
+        setWaitingForFetch(false);
+        setSightingNeedingVerification(false)
       })
     if(user) {
       axios.get(`/api/users/${user._id}/recent`)
         .then(response => {
+          console.log(response);
           setRecentSightings(response.data);
         })
         .catch(err => {
@@ -42,12 +50,14 @@ function SightingsPage () {
       .catch(response => {
         console.log(response);
       })
+    setVerificationSubmitted(true);
+    setSightingNeedingVerification(false);
   }
 
   return (
     <div className="container-fluid">
       <RecentSightings recentSightings={recentSightings}/>
-      <VerifySighting sightingNeedingVerification={sightingNeedingVerification} submitVerification={submitVerification}/>
+      <VerifySighting sightingNeedingVerification={sightingNeedingVerification} submitVerification={submitVerification} verificationSubmitted={verificationSubmitted} waitingForFetch={waitingForFetch}/>
     </div>
   )
 }
