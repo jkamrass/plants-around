@@ -29,7 +29,8 @@ export default async (req, res) => {
         }
       }
     }},
-    {$group: {_id: "$species", numberOfSightings: {$sum: "$numberOfSightings"}}}
+    {$group: {_id: "$species", numberOfSightings: {$sum: "$numberOfSightings"}}},
+    {$sort: {numberOfSightings: -1}}
   ])
   res.status(200).json(nearbySpecies);
 }
