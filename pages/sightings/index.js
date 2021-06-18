@@ -7,6 +7,7 @@ import UserContext from "../../components/userContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import {XLg, CheckLg} from "react-bootstrap-icons";
+import VerifySighting from "../../components/verifySighting";
 
 function SightingsPage () {
   const { user, setUser } = useContext(UserContext);
@@ -39,73 +40,12 @@ function SightingsPage () {
       })
   }
 
-  const generateLoadingSighting = () => {
-    return (
-        <div className="row">
-          <div className="col-md-6 offset-md-3 text-center">
-            <h3>Waiting for a sighting needing verification</h3>
-          </div>
-        </div>
-    )
-  };
-
-  const generateSighting = () => {
-    return (
-     <div>
-      <div className="row">
-        <div className="col-md-12">
-          <h4>Is this a {`${sightingNeedingVerification.species.name}`}?</h4>
-        </div>
-      </div>
-      <div className="row">
-        {sightingNeedingVerification.images.map(imageObject => {
-          return (
-            <div className="col-md-3">
-              <div className="card">
-                  <div className="row g-0">
-                    <div className="col-6">
-                      <Image
-                        src={`${imageObject.imageUrl}`}
-                        height={250}
-                        width={250}
-                        layout="responsive"
-                        className="card-img-top img-thumbnail"
-                        alt="..." />
-                    </div>
-                    <div className="col-6 text-start">
-                      <div className="card-body">
-                        <h6 className="card-title">Image</h6>
-                        Plant Part: {imageObject.organ}
-                      </div>
-                    </div>
-                  </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-      <div className="row">
-        <div className="col-md-6 offset-md-3">
-          <Button variant="primary" onClick={() => submitVerification(1)}><CheckLg /></Button>
-          <Button variant="primary" onClick={() => submitVerification(-1)}><XLg/></Button>
-          <Button variant="primary" onClick={() => submitVerification(0)}>Unsure</Button>
-        </div>
-      </div>
-     </div>
-    )
-  }
-
   return (
     <div className="container-fluid">
       <RecentSightings recentSightings={recentSightings}/>
-      <div className="row">
-        <div className="col-md-10 offset-md-1">
-          <h3>Verify a Sighting:</h3>
-          { sightingNeedingVerification ? generateSighting() : generateLoadingSighting()}
-        </div>
-      </div>
+      <VerifySighting sightingNeedingVerification={sightingNeedingVerification} submitVerification={submitVerification}/>
     </div>
   )
 }
 
-export default SightingsPage
+export default SightingsPage;
