@@ -25,9 +25,7 @@ export default function IdLocationMap (props) {
         onGoogleApiLoaded={({ map, maps }) => apiIsLoaded(map, maps)}>
         {props.children}
       </GoogleMapReact>
-      <div style={{position: 'absolute', top: '3%', left: '1%'}}>
-        <Link href="/explore"><Button variant="light"><FontAwesomeIcon icon={faAngleDoubleLeft} size='2x'/></Button></Link>
-      </div>
+
     </div>
   )
 }

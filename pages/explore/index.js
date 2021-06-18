@@ -18,7 +18,12 @@ function Explore() {
     setSearchLocation(pos.coords);
   }
 
-  const getPositionFailure = err => console.log(err);
+  const getPositionFailure = err => {
+    //Default for Durham:
+    const durhamCoordinates = {latitude: 35.994034, longitude: -78.898621}
+    setSearchLocation(durhamCoordinates);
+    console.log(err)
+  };
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(getPositionSuccess, getPositionFailure)

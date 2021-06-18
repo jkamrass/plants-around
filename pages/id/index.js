@@ -39,14 +39,14 @@ function IdPage () {
     })
     const sighting = {
       location: {
-        longitude: geoLocation.longitude,
-        latitude: geoLocation.latitude
+        longitude: locationOfId.longitude,
+        latitude: locationOfId.latitude
       },
       species: speciesForId[0]._id,
       images: imagesInProperFormatForApi
     };
 
-    sighting ? sighting.user = user._id : null;
+    user ? sighting.user = user._id : null;
 
     setWaitingForResponse(true);
     axios.post("/api/id", sighting)

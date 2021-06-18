@@ -35,7 +35,11 @@ function ExploreSpecies() {
     setSearchLocation(pos.coords);
     setAccuracy(pos.coords.accuracy);
   };
-  const handlePositionFailure = err => setGeoLocationError(true);
+  const handlePositionFailure = err => {
+    const durhamCoordinates = {latitude: 35.994034, longitude: -78.898621};
+    setSearchLocation(durhamCoordinates);
+    setGeoLocationError(true);
+  };
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(handlePositionSuccess, handlePositionFailure, {enableHighAccuracy: true})
@@ -47,7 +51,7 @@ function ExploreSpecies() {
       if (searchLocation) {
         url += `?long=${searchLocation.longitude}&lat=${searchLocation.latitude}`;
       } else if (geoLocationError) {
-        url += `?long=${-78.8945828}&lat=${36.0083195}`;
+        url += `?long=${-78.898621}&lat=${35.994034}`;
       }
       axios.get(url)
         .then((response) => {
