@@ -15,6 +15,15 @@ body {
 .nav-link {
   color: #183a1d !important;
 }
+
+.btn-primary {
+  background-color: #183a1d;
+}
+
+.btn-outline-primary {
+  color: #183a1d;
+  border-color: #183a1d;
+}
 a {
   color: inherit;
   text-decoration: none;

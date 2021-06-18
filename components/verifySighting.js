@@ -15,7 +15,7 @@ export default function VerifySighting({ sightingNeedingVerification, submitVeri
           <h3>Verify a Sighting:</h3>
           <div className="row">
             <div className="col-md-12">
-              <p>Get three sightings for a species you can help verify others users' sightings!</p>
+              <p>Get three sightings for a species so you can help verify others users' sightings!</p>
             </div>
           </div>
         </div>
