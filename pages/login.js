@@ -12,12 +12,10 @@ export default function Login () {
   const [password, setPassword] = useState('')
 
   function onSubmit(event) {
-    debugger;
     const userInfo = {username}
     axios.post('/api/login', userInfo)
       .then(response => {
         console.log(response);
-        debugger;
         setUser(response.data);
         router.push("/sightings");
       })
