@@ -50,7 +50,7 @@ function Explore() {
     <div className="container-fluid">
       <div className="row text-center">
         <div className="col-md-10 offset-md-1">
-          <h4>Plants Around You:</h4>
+          <h4>Discover Plants Around You:</h4>
           {resultsLoading ? <Spinner animation="border" role="status" className="m-3"><span className="sr-only">Loading...</span></Spinner> : <NearbySpeciesList nearbySpecies={nearbySpecies}/>}
         </div>
       </div>
