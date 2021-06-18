@@ -4,6 +4,9 @@ import Image from "next/image";
 import { useContext, useEffect, useState } from "react"
 import RecentSightings from "../../components/recentSightings";
 import UserContext from "../../components/userContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import {XLg, CheckLg} from "react-bootstrap-icons";
 
 function SightingsPage () {
   const { user, setUser } = useContext(UserContext);
@@ -50,14 +53,14 @@ function SightingsPage () {
     return (
      <div>
       <div className="row">
-        <div className="col-md-6 offset-md-3 text-center">
-          <h1>Is this a {`${sightingNeedingVerification.species.name}`}?</h1>
+        <div className="col-md-12">
+          <h4>Is this a {`${sightingNeedingVerification.species.name}`}?</h4>
         </div>
       </div>
       <div className="row">
         {sightingNeedingVerification.images.map(imageObject => {
           return (
-            <div className="col-md-2">
+            <div className="col-md-3">
               <div className="card">
                   <div className="row g-0">
                     <div className="col-6">
@@ -83,8 +86,8 @@ function SightingsPage () {
       </div>
       <div className="row">
         <div className="col-md-6 offset-md-3">
-          <Button variant="primary" onClick={() => submitVerification(1)}>Yes</Button>
-          <Button variant="primary" onClick={() => submitVerification(-1)}>No</Button>
+          <Button variant="primary" onClick={() => submitVerification(1)}><CheckLg /></Button>
+          <Button variant="primary" onClick={() => submitVerification(-1)}><XLg/></Button>
           <Button variant="primary" onClick={() => submitVerification(0)}>Unsure</Button>
         </div>
       </div>
@@ -95,7 +98,12 @@ function SightingsPage () {
   return (
     <div className="container-fluid">
       <RecentSightings recentSightings={recentSightings}/>
-      { sightingNeedingVerification ? generateSighting() : generateLoadingSighting()}
+      <div className="row">
+        <div className="col-md-10 offset-md-1">
+          <h3>Verify a Sighting:</h3>
+          { sightingNeedingVerification ? generateSighting() : generateLoadingSighting()}
+        </div>
+      </div>
     </div>
   )
 }
