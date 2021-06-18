@@ -4,8 +4,17 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  background-color: #fefbe9;
+  color: #183a1d;
 }
 
+#navbar-style {
+  background-color: #fefbe9;
+}
+
+.nav-link {
+  color: #183a1d !important;
+}
 a {
   color: inherit;
   text-decoration: none;

@@ -20,14 +20,18 @@ function SightingsPage () {
         console.log(response); 
         setSightingNeedingVerification(response.data[0]);
       })
-    // axios.get(`/api/users/${user._id}/recent`)
-    //   .then(response => {
-    //     setRecentSightings(response.data);
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //     setRecentSightings([]);
-    //   })
+    if(user) {
+      axios.get(`/api/users/${user._id}/recent`)
+        .then(response => {
+          setRecentSightings(response.data);
+        })
+        .catch(err => {
+          console.log(err);
+          setRecentSightings([]);
+        })
+    } else {
+      setRecentSightings([]);
+    }
   }, [])
 
   const submitVerification = (moderatorInput) => {
