@@ -1,8 +1,20 @@
+import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import Image from "next/image"
 import { Spinner } from "react-bootstrap"
 import Moment from "react-moment"
 
 export default function RecentSightings ({recentSightings}) {
+
+  const verifiedMessage = (verifiedStatus) => {
+    if (verifiedStatus==="TRUE") {
+      return <FontAwesomeIcon icon={faCheck} color="green"/>
+    }
+    if (verifiedStatus === "FALSE") {
+      return <FontAwesomeIcon icon={faTimes} color="red"/>
+    }
+    return "Pending";
+  }
 
   const generateSightingsList = () => {
     if(!recentSightings) {
@@ -32,7 +44,7 @@ export default function RecentSightings ({recentSightings}) {
               <div className="col-6">
                 <div className="card-body">
                   <h6 className="card-title"><Moment format="MM/DD/YY">{sighting.createdAt}</Moment></h6>
-                  <p className="card-text">Status: {sighting.verified}</p>
+                  <p className="card-text">Status: {verifiedMessage(sighting.verified)}</p>
                 </div>
               </div>
             </div>

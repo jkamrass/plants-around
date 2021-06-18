@@ -6,7 +6,23 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearchPlus } from "@fortawesome/free-solid-svg-icons";
 import VerifyImageModal from "./verifyImageModal";
 
-export default function VerifySighting({ sightingNeedingVerification, submitVerification, verificationSubmitted, waitingForFetch}) {
+export default function VerifySighting({ sightingNeedingVerification, submitVerification, verificationSubmitted, waitingForFetch, user}) {
+  console.log(user);
+  if (!user || user.username !== "greenThumb") {
+    return (
+      <div className="row">
+        <div className="col-md-10 offset-md-1">
+          <h3>Verify a Sighting:</h3>
+          <div className="row">
+            <div className="col-md-12">
+              <p>Get three sightings for a species you can help verify others users' sightings!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+  
   const generateLoadingSighting = () => {
     return (
       <Spinner animation="border" role="status" className="m-3">

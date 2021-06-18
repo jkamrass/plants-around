@@ -5,7 +5,7 @@ export default async (req, res) => {
   await dbConnect();
   const { speciesId, long, lat, distance } = req.query;
   const searchLocation = [Number(long || -78.92876857), Number(lat || 36.01385727)];
-  const radiusOfSearchInMiles = 2;
+  const radiusOfSearchInMiles = 5;
 
   const specimensMatchingSearch = await Specimen.find({
     location: {
@@ -14,7 +14,7 @@ export default async (req, res) => {
           type: "Point",
           coordinates: searchLocation
         },
-        $maxDistance: 3000
+        $maxDistance: 8046
       }
     },
     "species._id": speciesId})

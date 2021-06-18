@@ -6,7 +6,7 @@ export default async (req, res) => {
   await dbConnect();
   const {long, lat} = req.query;
   const searchLocation = [Number(long || -78.92876857), Number(lat || 36.01385727)];
-  const radiusOfSearchInMiles = 2;
+  const radiusOfSearchInMiles = 5;
   // const nearbySpecimens = await Specimen.find({
   //   location: {
   //     $near: {

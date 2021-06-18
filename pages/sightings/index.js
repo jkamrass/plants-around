@@ -57,7 +57,7 @@ function SightingsPage () {
   return (
     <div className="container-fluid">
       <RecentSightings recentSightings={recentSightings}/>
-      <VerifySighting sightingNeedingVerification={sightingNeedingVerification} submitVerification={submitVerification} verificationSubmitted={verificationSubmitted} waitingForFetch={waitingForFetch}/>
+      <VerifySighting user={user} sightingNeedingVerification={sightingNeedingVerification} submitVerification={submitVerification} verificationSubmitted={verificationSubmitted} waitingForFetch={waitingForFetch}/>
     </div>
   )
 }

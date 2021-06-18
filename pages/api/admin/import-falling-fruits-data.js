@@ -5,7 +5,7 @@ import Specimen from "../../../models/Specimen";
 import dbConnect from "../../../utils/dbConnect";
 import googleSheetReader from "../../../utils/gSheetsImport";
 
-const speciesToImport = [{name: "Common Fig", fallingFruitTerm: "fig"}, {name: "Blackberry", fallingFruitTerm: "blackberry"}, {name: "Pecan", fallingFruitTerm: "pecan"}]
+const speciesToImport = [{name: "Common Fig", fallingFruitTerm: "fig"}, {name: "Blackberry", fallingFruitTerm: "blackberry"}, {name: "Pecan", fallingFruitTerm: "pecan"}, {name: "Blueberry", fallingFruitTerm: "blueberry"}, {name: "Plum", fallingFruitTerm: "plum"}, {name: "Persimmon", fallingFruitTerm: "persimmon"}, {name: "Red Mulberry", fallingFruitTerm: "mulberry"}, {name: "Pawpaw", fallingFruitTerm: "pawpaw"}, {name: "Peach", fallingFruitTerm: "peach"}, {name: "Pear", fallingFruitTerm: "pear"}]
 
 export default async (req, res) => {
   await dbConnect();
