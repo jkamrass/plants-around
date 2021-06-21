@@ -2,7 +2,7 @@
 import 'rc-slider/assets/index.css';
 import Slider, { SliderTooltip } from 'rc-slider';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCarSide, faWalking } from '@fortawesome/free-solid-svg-icons';
+import { faBicycle, faBiking, faCarSide, faWalking } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 
 const { createSliderWithTooltip } = Slider;
@@ -24,18 +24,24 @@ const handle = props => {
   );
 };
 
-const wrapperStyle = { width: 300, margin: 10 };
+const marks = {
+  "0.5": <FontAwesomeIcon icon={faWalking} size="2x"/>,
+  "3": <FontAwesomeIcon icon={faBiking} size="2x" />,
+  "10": <FontAwesomeIcon icon={faCarSide} size="2x"/>
+}
+
+const wrapperStyle = { width: "100%" };
 
 export default function ExploreDistanceSlider ({searchRadius, setSearchRadius}) {
   const [sliderValue, setSliderValue] = useState(searchRadius);
 
   return (
-    <div className="text-start">
-      <div style={wrapperStyle}>
-        <p>Max Distance</p>
-        <FontAwesomeIcon icon={faWalking}/>
-        <FontAwesomeIcon icon={faCarSide}/>
-        <Slider min={0.5} max={10} step={0.5} value={sliderValue} onChange={setSliderValue} onAfterChange={() => setSearchRadius(sliderValue)} handle={handle} />
+    <div className="row text-start mb-5">
+      <div className="col-md-6">
+        <h6>Max Distance</h6>
+        <div style={wrapperStyle}>
+          <Slider min={0.5} max={10} step={0.5} value={sliderValue} marks={marks} onChange={setSliderValue} onAfterChange={() => setSearchRadius(sliderValue)} handle={handle} />
+        </div>
       </div>
     </div>
   );

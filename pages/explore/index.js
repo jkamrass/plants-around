@@ -36,7 +36,7 @@ function Explore() {
 
   useEffect(() => {
     if (searchLocation) {
-      axios.get(`/api/explore?long=${searchLocation.longitude}&lat=${searchLocation.latitude}`)
+      axios.get(`/api/explore?long=${searchLocation.longitude}&lat=${searchLocation.latitude}&dist=${searchRadius}`)
         .then(response => {
           console.log(response);
           setResultsLoading(false);
@@ -46,7 +46,7 @@ function Explore() {
           console.error(err);
         })
     }
-  }, [searchLocation])
+  }, [searchLocation, searchRadius])
 
   return (
     <div className="container-fluid">
