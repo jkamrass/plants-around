@@ -3,11 +3,13 @@ import { useEffect, useState } from "react";
 import NearbySpeciesList from "../../components/nearbySpeciesList";
 import SpecimenSearchMap from "../../components/SpecimenSearchMap";
 import { Spinner } from "react-bootstrap";
+import ExploreDistanceSlider from "../../components/explorePage/exploreDistanceSlider";
 
 function Explore() {
   const [searchLocation, setSearchLocation] = useState();
   const [nearbySpecies, setNearbySpecies] = useState([]);
   const [resultsLoading, setResultsLoading] = useState(true);
+  const [searchRadius, setSearchRadius] = useState(1);
 
 
   // latitude: 36.0083195
@@ -51,6 +53,7 @@ function Explore() {
       <div className="row text-center">
         <div className="col-md-10 offset-md-1">
           <h2>Plants Nearby:</h2>
+          <ExploreDistanceSlider searchRadius={searchRadius} setSearchRadius={setSearchRadius} />
           {resultsLoading ? <Spinner animation="border" role="status" className="m-3"><span className="sr-only">Loading...</span></Spinner> : <NearbySpeciesList nearbySpecies={nearbySpecies}/>}
         </div>
       </div>
