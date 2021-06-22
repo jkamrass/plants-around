@@ -25,9 +25,9 @@ const handle = props => {
 };
 
 const marks = {
-  "0.5": <FontAwesomeIcon icon={faWalking} size="2x"/>,
-  "3": <FontAwesomeIcon icon={faBiking} size="2x" />,
-  "10": <FontAwesomeIcon icon={faCarSide} size="2x"/>
+  "0.5": <FontAwesomeIcon icon={faWalking} size="2x" color="#183a1d"/>,
+  "3": <FontAwesomeIcon icon={faBiking} size="2x" color="#183a1d" />,
+  "10": <FontAwesomeIcon icon={faCarSide} size="2x" color="#183a1d"/>
 }
 
 const wrapperStyle = { width: "100%" };
@@ -36,13 +36,11 @@ export default function ExploreDistanceSlider ({searchRadius, setSearchRadius}) 
   const [sliderValue, setSliderValue] = useState(searchRadius);
 
   return (
-    <div className="row text-start mb-5">
-      <div className="col-md-6">
-        <h6>Max Distance</h6>
+      <>
+        <h6>Search Radius</h6>
         <div style={wrapperStyle}>
           <Slider min={0.5} max={10} step={0.5} value={sliderValue} marks={marks} onChange={setSliderValue} onAfterChange={() => setSearchRadius(sliderValue)} handle={handle} />
         </div>
-      </div>
-    </div>
+      </>
   );
 }

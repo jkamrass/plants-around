@@ -4,7 +4,7 @@ import Specimen from "../../../models/Specimen";
 export default async (req, res) => {
   // Check if search Location provided
   await dbConnect();
-  const {long, lat, dist} = req.query;
+  const {long, lat, dist, species} = req.query;
   const searchLocation = [Number(long || -78.92876857), Number(lat || 36.01385727)];
   const radiusOfSearchInMiles = dist && Number(dist) ? Number(dist) : 5;
   // const nearbySpecimens = await Specimen.find({

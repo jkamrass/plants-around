@@ -12,25 +12,8 @@ function ExploreSpecies() {
   const [accuracy , setAccuracy] = useState();
   const [geoLocationError, setGeoLocationError] = useState(false);
   const [specimens, setSpecimens] = useState([]);
-  // latitude: 36.0083195
-  // longitude: -78.8945828
+  const [speciesInfo, setSpeciesInfo] = useState();
 
-  // High Accuracy:
-  // latitude: 36.012032
-  // longitude: -78.8987904
-  // const getPositionSuccess = pos => {
-  //   console.log(pos)
-  //   //setSearchLocation(pos.coords);
-  // }
-  // const getPositionFailure = err => console.log(err);
-
-  // useEffect(() => {
-  //   const geoId = navigator.geolocation.watchPosition(getPositionSuccess, getPositionFailure, {enableHighAccuracy: true, maximumAge: 2000, timeout: 5000})
-  //   return () => {
-  //     console.log("Clear Watch Called");
-  //     navigator.geolocation.clearWatch(geoId)
-  //   }
-  // }, [])
   const handlePositionSuccess = pos => {
     setSearchLocation(pos.coords);
     setAccuracy(pos.coords.accuracy);
@@ -42,8 +25,17 @@ function ExploreSpecies() {
   };
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(handlePositionSuccess, handlePositionFailure, {enableHighAccuracy: true})
+    navigator.geolocation.getCurrentPosition(handlePositionSuccess, handlePositionFailure, {enableHighAccuracy: true});
   }, [])
+
+  useEffect(() => {
+    if(speciesId) {
+      axios.get(`/api/species/${speciesId}`)
+        .then(response => {
+          setSpeciesInfo(response.data);
+        });
+    };
+  }, [speciesId]);
 
   useEffect(() => {
     if(speciesId) {
@@ -80,7 +72,7 @@ function ExploreSpecies() {
     <div className="container-fluid">
       <div className="row text-center">
         <div className="col-md-12">
-          {searchLocation ? <SpecimenSearchMap searchLocation={searchLocation}>{generateMapMarkers(specimens)}</SpecimenSearchMap> : <p>Loading</p>}
+          {searchLocation ? <SpecimenSearchMap searchLocation={searchLocation} speciesInfo={speciesInfo}>{generateMapMarkers(specimens)}</SpecimenSearchMap> : <p>Loading</p>}
         </div>
       </div>
     </div>
