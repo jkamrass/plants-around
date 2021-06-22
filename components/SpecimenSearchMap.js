@@ -1,30 +1,40 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDoubleLeft } from "@fortawesome/free-solid-svg-icons"
-
 import GoogleMapReact from 'google-map-react';
 import { Button, Card, Image } from 'react-bootstrap';
 import Link from 'next/link';
-//TO-DO: Hide API key in env variables
+
 export default function SpecimenSearchMap (props) {
-  let {searchLocation, speciesInfo} = props;
-  searchLocation ? null : searchLocation = {longitude: -78.92876857, latitude: 36.01385727};
+  let {searchLocation, currentLocation, setSearchLocation, speciesInfo, loadingResults} = props;
+  //currentLocation ? null : currentLocation = {longitude: -78.92876857, latitude: 36.01385727};
 
   const apiIsLoaded = (map, maps) => {
     map.setOptions({'fullscreenControl': false});
   }
 
+  const onBoundsChange = ({bounds}) => {
+    const newSearchGeometry = {
+      type: "polygon",
+      neLat: bounds.ne.lat,
+      neLong: bounds.ne.lng,
+      swLat: bounds.sw.lat,
+      swLong: bounds.sw.lng
+    }
+    setSearchLocation(newSearchGeometry);
+  }
+
   const onMapClick = ({ x, y, lat, lng, event }) => {
     console.log(event);
   }
-  //const searchLocation = [-78.92876857, 36.01385727];
+  
   return (
     <div style={{ height: '90vh', width: '100%', position: 'relative'}}>
       <GoogleMapReact 
         bootstrapURLKeys={{key: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}}
-        defaultCenter={{lng: searchLocation.longitude, lat: searchLocation.latitude}}
+        defaultCenter={{lng: currentLocation.longitude, lat: currentLocation.latitude}}
         defaultZoom={15}
         onClick={onMapClick}
-        onChange={(mapState) => console.log(mapState)}
+        onChange={onBoundsChange}
         yesIWantToUseGoogleMapApiInternals
         onGoogleApiLoaded={({ map, maps }) => apiIsLoaded(map, maps)}>
         {props.children}
@@ -42,6 +52,15 @@ export default function SpecimenSearchMap (props) {
           </div>
           ) : <p>Loading...</p>
         }
+      </div>
+      <div style={{position: 'absolute', top: '3%', left: '50%'}}>
+        {loadingResults ? (
+          <div className="card shadow">
+            <div className="card-body p-1">
+              <h6 className="card-title">Loading...</h6>
+            </div>
+          </div>
+        ) : null}
       </div>
     </div>
   )

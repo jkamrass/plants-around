@@ -9,17 +9,21 @@ function ExploreSpecies() {
   const router = useRouter();
   const {speciesId} = router.query
   const [searchLocation, setSearchLocation] = useState();
+  const [currentLocation, setCurrentLocation] = useState();
+  const [loadingResults, setLoadingResults] = useState(true);
   const [accuracy , setAccuracy] = useState();
   const [geoLocationError, setGeoLocationError] = useState(false);
   const [specimens, setSpecimens] = useState([]);
   const [speciesInfo, setSpeciesInfo] = useState();
 
   const handlePositionSuccess = pos => {
-    setSearchLocation(pos.coords);
+    setCurrentLocation({longitude: pos.coords.longitude, latitude: pos.coords.latitude});
+    setSearchLocation({type: "point", longitude: pos.coords.longitude, latitude: pos.coords.latitude});
     setAccuracy(pos.coords.accuracy);
   };
   const handlePositionFailure = err => {
-    const durhamCoordinates = {latitude: 35.994034, longitude: -78.898621};
+    const durhamCoordinates = {type: "point", latitude: 35.994034, longitude: -78.898621};
+    setCurrentLocation(durhamCoordinates);
     setSearchLocation(durhamCoordinates);
     setGeoLocationError(true);
   };
@@ -41,21 +45,26 @@ function ExploreSpecies() {
     if(speciesId) {
       let url = `/api/explore/${speciesId}`;
       if (searchLocation) {
-        url += `?long=${searchLocation.longitude}&lat=${searchLocation.latitude}`;
-      } else if (geoLocationError) {
-        url += `?long=${-78.898621}&lat=${35.994034}`;
+        if (searchLocation.type === "point") {
+          url += `?type=${searchLocation.type}&long=${searchLocation.longitude}&lat=${searchLocation.latitude}`;
+        }
+        if (searchLocation.type === "polygon") {
+          url += `?type=${searchLocation.type}&neLat=${searchLocation.neLat}&neLong=${searchLocation.neLong}&swLat=${searchLocation.swLat}&swLong=${searchLocation.swLong}`
+        }
+        setLoadingResults(true);
+        axios.get(url)
+          .then((response) => {
+            setSpecimens(response.data)
+            setLoadingResults(false);
+          })
       }
-      axios.get(url)
-        .then((response) => {
-          setSpecimens(response.data)
-        })
     }
   }, [speciesId, searchLocation, geoLocationError])
 
   const generateMapMarkers = (specimens) => {
     const currentLocationMarker = <CurrentLocationMapMarker
-      lng={searchLocation.longitude}
-      lat={searchLocation.latitude}
+      lng={currentLocation.longitude}
+      lat={currentLocation.latitude}
       key="currentLocation" />
     const specimenMarkers = specimens.map(specimen => 
       <SpecimenMapMarker
@@ -72,7 +81,7 @@ function ExploreSpecies() {
     <div className="container-fluid">
       <div className="row text-center">
         <div className="col-md-12">
-          {searchLocation ? <SpecimenSearchMap searchLocation={searchLocation} speciesInfo={speciesInfo}>{generateMapMarkers(specimens)}</SpecimenSearchMap> : <p>Loading</p>}
+          {currentLocation ? <SpecimenSearchMap searchLocation={searchLocation} setSearchLocation={setSearchLocation} speciesInfo={speciesInfo} currentLocation={currentLocation} loadingResults={loadingResults}>{generateMapMarkers(specimens)}</SpecimenSearchMap> : <p>Loading</p>}
         </div>
       </div>
     </div>
