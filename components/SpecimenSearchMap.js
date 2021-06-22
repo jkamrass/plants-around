@@ -53,7 +53,7 @@ export default function SpecimenSearchMap (props) {
           ) : <p>Loading...</p>
         }
       </div>
-      <div style={{position: 'absolute', top: '3%', left: '50%'}}>
+      <div style={{position: 'absolute', top: '3%', left: '45%'}}>
         {loadingResults ? (
           <div className="card shadow">
             <div className="card-body p-1">
