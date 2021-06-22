@@ -56,7 +56,7 @@ function Explore() {
           console.error(err);
         })
     }
-  }, [searchLocation, searchRadius])
+  }, [searchLocation, searchRadius, speciesForSearch])
 
   return (
     <div className="container-fluid">

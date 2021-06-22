@@ -1,5 +1,6 @@
 import dbConnect from "../../../utils/dbConnect";
 import Specimen from "../../../models/Specimen";
+import mongoose from "mongoose";
 
 export default async (req, res) => {
   // Check if search Location provided
@@ -7,19 +8,6 @@ export default async (req, res) => {
   const {long, lat, dist, species} = req.query;
   const searchLocation = [Number(long || -78.92876857), Number(lat || 36.01385727)];
   const radiusOfSearchInMiles = dist && Number(dist) ? Number(dist) : 5;
-  // const nearbySpecimens = await Specimen.find({
-  //   location: {
-  //     $near: {
-  //       $geometry: {
-  //         type: "Point",
-  //         coordinates: searchLocation
-  //       },
-  //       $maxDistance: 3000
-  //     }
-  //   }
-  //   },
-  //   "species"
-  // )
   const nearbySpecies = await Specimen.aggregate([
     {$match: {
       location: {
@@ -27,7 +15,8 @@ export default async (req, res) => {
           // converts the distance from miles to radians by dividing by the approximate equatorial radius of the earth, 3963.2 miles
           $centerSphere: [searchLocation, radiusOfSearchInMiles/3963.2]
         }
-      }
+      },
+      "species._id": species === "undefined" ? {$exists: true} : mongoose.Types.ObjectId(species)
     }},
     {$group: {_id: "$species", numberOfSightings: {$sum: "$numberOfSightings"}}},
     {$sort: {numberOfSightings: -1}}
