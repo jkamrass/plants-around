@@ -1,10 +1,10 @@
-import axios from "axios";
-import { useRouter } from "next/router";
-import { useContext, useState } from "react";
-import { Form, Button } from "react-bootstrap";
-import UserContext from "../components/userContext";
+import axios from 'axios';
+import { useRouter } from 'next/router';
+import { useContext, useState } from 'react';
+import { Form, Button } from 'react-bootstrap';
+import UserContext from '../components/userContext';
 
-export default function SignUp () {
+export default function SignUp() {
   const router = useRouter();
   const { user, setUser } = useContext(UserContext);
   // We maintain state values for our inputs
@@ -12,19 +12,17 @@ export default function SignUp () {
   const [password, setPassword] = useState('');
 
   function onSubmit(event) {
-    debugger;
-    const userInfo = {username}
-    axios.post('/api/signup', userInfo)
-      .then(response => {
-        console.log(response);
-        debugger;
+    const userInfo = { username };
+    axios
+      .post('/api/signup', userInfo)
+      .then((response) => {
         setUser(response.data);
-        router.push("/sightings");
+        router.push('/sightings');
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
-      })
-  };
+      });
+  }
 
   return (
     <div className="container-fluid mt-3">
@@ -38,11 +36,16 @@ export default function SignUp () {
           <Form>
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Username</Form.Label>
-              <Form.Control type="text" placeholder="Enter Username" value={username} onChange={(e) => setUsername(e.target.value)} />
+              <Form.Control
+                type="text"
+                placeholder="Enter Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
             </Form.Group>
             <Form.Group controlId="formBasicPassword">
               <Form.Label>Password</Form.Label>
-              <Form.Control type="password" placeholder="Password"/>
+              <Form.Control type="password" placeholder="Password" />
             </Form.Group>
             <Button variant="primary" onClick={onSubmit} className="mt-3">
               Sign Up
@@ -51,5 +54,5 @@ export default function SignUp () {
         </div>
       </div>
     </div>
-  )
+  );
 }

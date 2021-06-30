@@ -1,13 +1,14 @@
-import Sighting from "../../models/Sighting";
-import User from "../../models/User";
-import dbConnect from "../../utils/dbConnect"
+import User from '../../models/User';
+import dbConnect from '../../utils/dbConnect';
 
 export default async (req, res) => {
   await dbConnect();
   // Check to see if that username is already taken
-  const existingUser = await User.findOne({username: req.body.username}).exec();
-  if(existingUser) {
-    return res.status(409).send("Username already taken");
+  const existingUser = await User.findOne({
+    username: req.body.username,
+  }).exec();
+  if (existingUser) {
+    return res.status(409).send('Username already taken');
   }
   const newUser = new User();
   newUser.username = req.body.username;
@@ -16,7 +17,7 @@ export default async (req, res) => {
     _id: savedUser._id,
     username: savedUser.username,
     verifiedSightings: savedUser.verifiedSightings,
-    recentSightings: []
+    recentSightings: [],
   };
   res.status(200).json(response);
-}
+};

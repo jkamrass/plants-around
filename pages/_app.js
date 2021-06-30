@@ -1,20 +1,20 @@
-import 'bootstrap/dist/css/bootstrap.css'
-import { useState } from 'react'
-import NavbarMain from '../components/navbar'
-import '../styles/globals.css'
-import UserContext from '../components/userContext'
+import 'bootstrap/dist/css/bootstrap.css';
+import { useState } from 'react';
+import NavbarMain from '../components/navbar';
+import '../styles/globals.css';
+import UserContext from '../components/userContext';
 
 function MyApp({ Component, pageProps }) {
   const [user, setUser] = useState(null);
 
   return (
     <>
-      <UserContext.Provider value={{ user: user, setUser: setUser }}>
+      <UserContext.Provider value={{ user, setUser }}>
         <NavbarMain />
         <Component {...pageProps} />
       </UserContext.Provider>
     </>
-  )
+  );
 }
 
-export default MyApp
+export default MyApp;

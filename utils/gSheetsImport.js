@@ -2,15 +2,19 @@ const GSheetReader = require('g-sheets-api');
 
 const googleSheetReader = async (sheetId) => {
   const options = {
-    sheetId
+    sheetId,
   };
   let results;
   await GSheetReader(
     options,
-    importResults => {results = importResults},
-    error => {results = error}
+    (importResults) => {
+      results = importResults;
+    },
+    (error) => {
+      results = error;
+    }
   );
-  return results
-}
+  return results;
+};
 
 export default googleSheetReader;
