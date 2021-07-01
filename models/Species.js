@@ -1,17 +1,19 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose from 'mongoose';
 
-const SpeciesSchema = new mongoose.Schema({
-  name: String,
-  scientificName: {type: String, required: true},
-  scientificNameNormalized: String,
-  images: {
-    thumbnail: String,
-    images: [String]
+const SpeciesSchema = new mongoose.Schema(
+  {
+    name: String,
+    scientificName: { type: String, required: true },
+    scientificNameNormalized: String,
+    images: {
+      thumbnail: String,
+      images: [String],
+    },
+    links: [String],
+    identificationInformation: String,
   },
-  links: [String],
-  identificationInformation: String,
-  },
-  {timestamps: true}
-)
+  { timestamps: true }
+);
 
-export default mongoose.models.Species || mongoose.model('Species', SpeciesSchema);
+export default mongoose.models.Species ||
+  mongoose.model('Species', SpeciesSchema);
