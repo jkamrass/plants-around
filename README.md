@@ -11,7 +11,7 @@ This app enables users to discover and learn what plants are growing all around 
 ### Functionality
 
 - On the Explore pages, users can discover what plant species are growing nearby them and explore the map to find locations of plants to visit
-- On the Id page, users can submit their own sighting of a plant, uploading a picture and location for their sighting. The app will attempt to verify the sighting automatically with the [Pl@ntNet] Image Recognition API.
+- On the Id page, users can submit their own sighting of a plant, uploading a picture and location for their sighting. The app will attempt to verify the sighting automatically with the [Pl@ntNet](https://my.plantnet.org/) Image Recognition API.
 - (In Progress) On the Sightings page, users who have created an account can see the status of their recently posted sightings and help to verify the sightings of other users.
 
 ### Built With
