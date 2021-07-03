@@ -2,16 +2,23 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Spinner } from 'react-bootstrap';
 import { Typeahead } from 'react-bootstrap-typeahead';
-import NearbySpeciesList from '../../components/nearbySpeciesList';
-import ExploreDistanceSlider from '../../components/explorePage/exploreDistanceSlider';
+import NearbySpeciesList from '../../components/exploreSearchPage/nearbySpeciesList';
+import ExploreDistanceSlider from '../../components/exploreSearchPage/exploreDistanceSlider';
 
 function Explore() {
   const [searchLocation, setSearchLocation] = useState();
   const [nearbySpecies, setNearbySpecies] = useState([]);
   const [resultsLoading, setResultsLoading] = useState(true);
-  const [searchRadius, setSearchRadius] = useState(1);
+  const [searchRadius, setSearchRadius] = useState(5);
   const [speciesOptions, setSpeciesOptions] = useState([]);
   const [speciesForSearch, setSpeciesForSearch] = useState([]);
+
+  const setDurhamDefaultSearch = () => {
+    // Default Coordinates for Durham:
+    const durhamCoordinates = { latitude: 35.994034, longitude: -78.898621 };
+    setSearchLocation(durhamCoordinates);
+    setSearchRadius(10);
+  };
 
   const getPositionSuccess = (pos) => {
     console.log(pos);
@@ -19,10 +26,7 @@ function Explore() {
   };
 
   const getPositionFailure = (err) => {
-    // Default for Durham:
-    const durhamCoordinates = { latitude: 35.994034, longitude: -78.898621 };
-    setSearchLocation(durhamCoordinates);
-    console.log(err);
+    setDurhamDefaultSearch();
   };
 
   useEffect(() => {
@@ -86,7 +90,10 @@ function Explore() {
               <span className="sr-only">Loading...</span>
             </Spinner>
           ) : (
-            <NearbySpeciesList nearbySpecies={nearbySpecies} />
+            <NearbySpeciesList
+              nearbySpecies={nearbySpecies}
+              setDurhamDefaultSearch={setDurhamDefaultSearch}
+            />
           )}
         </div>
       </div>

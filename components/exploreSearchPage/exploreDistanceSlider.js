@@ -7,7 +7,7 @@ import {
   faCarSide,
   faWalking,
 } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const { createSliderWithTooltip } = Slider;
 const Range = createSliderWithTooltip(Slider.Range);
@@ -41,6 +41,10 @@ export default function ExploreDistanceSlider({
   setSearchRadius,
 }) {
   const [sliderValue, setSliderValue] = useState(searchRadius);
+
+  useEffect(() => {
+    setSliderValue(searchRadius);
+  }, [searchRadius]);
 
   return (
     <>
