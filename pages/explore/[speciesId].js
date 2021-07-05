@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import SpecimenSearchMap from '../../components/SpecimenSearchMap';
-import SpecimenMapMarker from '../../components/specimenMapMarker';
+import SpecimenSearchMap from '../../components/exploreMapPage/SpecimenSearchMap';
+import SpecimenMapMarker from '../../components/exploreMapPage/specimenMapMarker';
 import CurrentLocationMapMarker from '../../components/currentLocationMapMarker';
 
 function ExploreSpecies() {
