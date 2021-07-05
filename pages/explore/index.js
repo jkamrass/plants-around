@@ -34,7 +34,7 @@ function Explore() {
       getPositionSuccess,
       getPositionFailure
     );
-    // Fetch the possible species to choose from
+    // Fetches the possible species the user can choose to search for
     axios
       .get('/api/species')
       .then((response) => {
@@ -46,6 +46,7 @@ function Explore() {
   }, []);
 
   useEffect(() => {
+    // Retrieves the sightings matching search criteria
     if (searchLocation) {
       axios
         .get(

@@ -11,7 +11,6 @@ function ExploreSpecies() {
   const [searchLocation, setSearchLocation] = useState();
   const [currentLocation, setCurrentLocation] = useState();
   const [loadingResults, setLoadingResults] = useState(true);
-  const [accuracy, setAccuracy] = useState();
   const [geoLocationError, setGeoLocationError] = useState(false);
   const [specimens, setSpecimens] = useState([]);
   const [speciesInfo, setSpeciesInfo] = useState();
@@ -26,8 +25,9 @@ function ExploreSpecies() {
       longitude: pos.coords.longitude,
       latitude: pos.coords.latitude,
     });
-    setAccuracy(pos.coords.accuracy);
   };
+
+  // Sets location to default Durham coordinates if geolocation fails
   const handlePositionFailure = (err) => {
     const durhamCoordinates = {
       type: 'point',
@@ -39,6 +39,7 @@ function ExploreSpecies() {
     setGeoLocationError(true);
   };
 
+  // Attempts to get the user's geolocation position
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
       handlePositionSuccess,
@@ -47,6 +48,7 @@ function ExploreSpecies() {
     );
   }, []);
 
+  // Retreives the information for species of map sightings
   useEffect(() => {
     if (speciesId) {
       axios.get(`/api/species/${speciesId}`).then((response) => {
@@ -55,6 +57,7 @@ function ExploreSpecies() {
     }
   }, [speciesId]);
 
+  // Retreives the sightings to display on the map
   useEffect(() => {
     if (speciesId) {
       let url = `/api/explore/${speciesId}`;
