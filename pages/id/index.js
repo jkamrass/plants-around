@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { Button, Spinner } from 'react-bootstrap';
 import { useRouter } from 'next/router';
-import SpeciesSelectionId from '../../components/speciesSelectionId';
+import SpeciesSelectionId from '../../components/idPage/speciesSelectionId';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import IdPicturesSection from '../../components/idPage/idPicturesSection';
 import IdLocationSection from '../../components/idPage/idLocationSection';
@@ -18,7 +18,7 @@ function IdPage() {
   const [waitingForResponse, setWaitingForResponse] = useState(false);
 
   useEffect(() => {
-    // Fetch the possible species to choose from
+    // Fetch the possible species the user can choose from
     axios
       .get('/api/species')
       .then((response) => {
@@ -30,7 +30,6 @@ function IdPage() {
   }, []);
 
   const submitSighting = () => {
-    // TO-DO: Check to make sure all required information has been provided
     const imagesInProperFormatForApi = imagesForId.map((image) => ({
       imageUrl: image.url,
       organ: image.organ[0],
@@ -59,6 +58,7 @@ function IdPage() {
       });
   };
 
+  // Checks to make sure all needed information has been provided for the sighting
   const isSightingComplete = () => {
     if (
       locationOfId &&

@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useRef, useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import CurrentLocationMapMarker from '../currentLocationMapMarker';
-import IdLocationMap from '../idLocationMap';
+import IdLocationMap from './idLocationMap';
 
 const IdLocationSection = ({ locationOfId, setLocationOfId }) => {
   const locationWatchId = useRef(null);

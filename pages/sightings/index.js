@@ -6,8 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { XLg, CheckLg } from 'react-bootstrap-icons';
 import UserContext from '../../components/userContext';
-import RecentSightings from '../../components/recentSightings';
-import VerifySighting from '../../components/verifySighting';
+import RecentSightings from '../../components/sightingPage/recentSightings';
+import VerifySighting from '../../components/sightingPage/verifySighting';
 
 function SightingsPage() {
   const { user, setUser } = useContext(UserContext);
