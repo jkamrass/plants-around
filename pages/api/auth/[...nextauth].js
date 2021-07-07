@@ -6,6 +6,17 @@ import User from '../../../models/User'
 export default NextAuth({
   // Configure one or more authentication providers
   providers: [
+    Providers.Email({
+      server: {
+        host: '',
+        port: '',
+        auth: {
+          user: '',
+          pass: '',
+        },
+      },
+      from: '',
+    }),
     Providers.Credentials({
       id: "Credentials",
       name: "Credentials",
