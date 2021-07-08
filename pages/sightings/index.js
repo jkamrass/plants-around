@@ -5,11 +5,13 @@ import { useContext, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { XLg, CheckLg } from 'react-bootstrap-icons';
+import { useSession } from 'next-auth/client';
 import UserContext from '../../components/userContext';
 import RecentSightings from '../../components/sightingPage/recentSightings';
 import VerifySighting from '../../components/sightingPage/verifySighting';
 
 function SightingsPage() {
+  const [session, loading] = useSession();
   const { user, setUser } = useContext(UserContext);
   const [
     sightingNeedingVerification,
@@ -20,6 +22,7 @@ function SightingsPage() {
   const [verificationSubmitted, setVerificationSubmitted] = useState(false);
   const [userCanVerify, setUserCanVerify] = useState(false);
   useEffect(() => {
+    // Fetches a sighting that this user can verify if any
     axios
       .get('/api/verify')
       .then((response) => {
@@ -31,9 +34,9 @@ function SightingsPage() {
         setWaitingForFetch(false);
         setSightingNeedingVerification(false);
       });
-    if (user) {
+    if (session) {
       axios
-        .get(`/api/users/${user._id}/recent`)
+        .get(`/api/users/${session.user.id}/recent`)
         .then((response) => {
           console.log(response);
           setRecentSightings(response.data);

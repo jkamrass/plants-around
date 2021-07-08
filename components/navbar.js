@@ -11,10 +11,6 @@ export default function NavbarMain() {
   const [session, loading] = useSession();
   const { user, setUser } = useContext(UserContext);
 
-  if (session) {
-    console.log(session.user);
-  }
-
   const generateUserDisplay = () => {
     if (user) {
       return (

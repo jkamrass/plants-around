@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { Button, Spinner } from 'react-bootstrap';
 import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/client';
 import SpeciesSelectionId from '../../components/idPage/speciesSelectionId';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import IdPicturesSection from '../../components/idPage/idPicturesSection';
@@ -9,6 +10,7 @@ import IdLocationSection from '../../components/idPage/idLocationSection';
 import UserContext from '../../components/userContext';
 
 function IdPage() {
+  const [session, loading] = useSession();
   const { user, setUser } = useContext(UserContext);
   const router = useRouter();
   const [locationOfId, setLocationOfId] = useState(null);
@@ -41,10 +43,11 @@ function IdPage() {
       },
       species: speciesForId[0]._id,
       images: imagesInProperFormatForApi,
+      user: session.user.id,
     };
-    if (user) {
-      sighting.user = user._id;
-    }
+    // if (user) {
+    //   sighting.user = user._id;
+    // }
 
     setWaitingForResponse(true);
     axios
@@ -70,6 +73,20 @@ function IdPage() {
     }
     return false;
   };
+
+  // if (!session) {
+  //   return (
+  //     <div className="container-fluid">
+  //       <div className="row">
+  //         <div className="col-md-6 offset-md-3">
+  //           <div className="row mb-3 text-center">
+  //             <h4>You must be logged in to post a sighting</h4>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="container-fluid">
