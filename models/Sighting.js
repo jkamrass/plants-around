@@ -5,6 +5,7 @@ const SightingSchema = new mongoose.Schema(
   {
     species: {
       _id: { type: Schema.Types.ObjectId, required: true, ref: 'Species' },
+      name: { type: String, required: true },
       thumbnail: String,
     },
     user: { type: Schema.Types.ObjectId, ref: 'User' },

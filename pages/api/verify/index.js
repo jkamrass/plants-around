@@ -5,9 +5,12 @@ import dbConnect from '../../../utils/dbConnect';
 export default async (req, res) => {
   await dbConnect();
   const session = await getSession({ req });
-  console.log(session);
+  if (!session) {
+    return res.status(401).send('Must be authenticated');
+  }
   const sightingNeedingVerification = await Sighting.findOne({
     verified: 'PENDING',
+    user: { $ne: session.user.id },
   }).exec();
   res
     .status(200)

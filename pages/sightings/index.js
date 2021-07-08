@@ -67,7 +67,6 @@ function SightingsPage() {
     <div className="container-fluid">
       <RecentSightings recentSightings={recentSightings} />
       <VerifySighting
-        user={user}
         sightingNeedingVerification={sightingNeedingVerification}
         submitVerification={submitVerification}
         verificationSubmitted={verificationSubmitted}

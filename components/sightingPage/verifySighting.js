@@ -2,6 +2,7 @@ import { XLg, CheckLg } from 'react-bootstrap-icons';
 import { Button, Spinner } from 'react-bootstrap';
 import Image from 'next/image';
 
+import { useSession } from 'next-auth/client';
 import VerifyImageModal from './verifyImageModal';
 
 export default function VerifySighting({
@@ -9,20 +10,17 @@ export default function VerifySighting({
   submitVerification,
   verificationSubmitted,
   waitingForFetch,
-  user,
 }) {
-  console.log(user);
-  if (!user || user.username !== 'greenThumb') {
+  const [session, loading] = useSession();
+
+  if (!session) {
     return (
       <div className="row">
         <div className="col-md-10 offset-md-1">
           <h3>Verify a Sighting:</h3>
           <div className="row">
             <div className="col-md-12">
-              <p>
-                Get three sightings for a species so you can help verify others
-                users' sightings!
-              </p>
+              <p>Create an account to begin verifying sightings!</p>
             </div>
           </div>
         </div>

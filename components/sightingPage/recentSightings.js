@@ -57,7 +57,7 @@ export default function RecentSightings({ recentSightings }) {
     return sightingsList;
   };
   return (
-    <div className="row">
+    <div className="row mb-3">
       <div className="col-md-10 offset-md-1">
         <h2>Your Recent Sightings:</h2>
         <div className="row">{generateSightingsList()}</div>
