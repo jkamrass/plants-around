@@ -1,14 +1,19 @@
-import { Navbar, Nav } from 'react-bootstrap';
+import { Navbar, Nav, Button } from 'react-bootstrap';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera, faSeedling, faMap } from '@fortawesome/free-solid-svg-icons';
-import { signIn } from 'next-auth/client';
+import { signIn, signOut, useSession } from 'next-auth/client';
 import { useContext } from 'react';
 import UserContext from './userContext';
 import '../styles/navbar.module.css';
 
 export default function NavbarMain() {
+  const [session, loading] = useSession();
   const { user, setUser } = useContext(UserContext);
+
+  if (session) {
+    console.log(session.user);
+  }
 
   const generateUserDisplay = () => {
     if (user) {
@@ -65,7 +70,24 @@ export default function NavbarMain() {
               </Nav.Link>
             </Link>
           </Nav>
-          <Nav>{generateUserDisplay()}</Nav>
+          <Nav>
+            {session ? (
+              <>
+                <Navbar.Text>Signed in as: {session.user.email}</Navbar.Text>
+                <Navbar.Text>
+                  <Button variant="outline-primary" onClick={signOut}>
+                    Signout
+                  </Button>
+                </Navbar.Text>
+              </>
+            ) : (
+              <Navbar.Text>
+                <Button variant="outline-primary" onClick={signIn}>
+                  Login/Signup
+                </Button>
+              </Navbar.Text>
+            )}
+          </Nav>
         </Navbar.Collapse>
       </Navbar>
     </div>

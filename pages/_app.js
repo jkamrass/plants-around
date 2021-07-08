@@ -3,16 +3,19 @@ import { useState } from 'react';
 import NavbarMain from '../components/navbar';
 import '../styles/globals.css';
 import UserContext from '../components/userContext';
+import { Provider } from 'next-auth/client';
 
 function MyApp({ Component, pageProps }) {
   const [user, setUser] = useState(null);
 
   return (
     <>
-      <UserContext.Provider value={{ user, setUser }}>
-        <NavbarMain />
-        <Component {...pageProps} />
-      </UserContext.Provider>
+      <Provider session={pageProps.session}>
+        <UserContext.Provider value={{ user, setUser }}>
+          <NavbarMain {...pageProps} />
+          <Component {...pageProps} />
+        </UserContext.Provider>
+      </Provider>
     </>
   );
 }

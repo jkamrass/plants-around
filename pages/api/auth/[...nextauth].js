@@ -1,64 +1,72 @@
-import NextAuth from 'next-auth'
-import Providers from 'next-auth/providers'
-import dbConnect from '../../../utils/dbConnect'
-import User from '../../../models/User'
+import NextAuth from 'next-auth';
+import Providers from 'next-auth/providers';
+import dbConnect from '../../../utils/dbConnect';
+import User from '../../../models/User';
 
 export default NextAuth({
   // Configure one or more authentication providers
   providers: [
+    Providers.GitHub({
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
+    }),
     Providers.Email({
       server: {
-        host: '',
-        port: '',
+        host: process.env.EMAIL_SERVER_HOST,
+        port: process.env.EMAIL_SERVER_PORT,
         auth: {
-          user: '',
-          pass: '',
+          user: process.env.EMAIL_SERVER_USER,
+          pass: process.env.EMAIL_SERVER_PASSWORD,
         },
       },
-      from: '',
+      from: process.env.EMAIL_FROM,
     }),
-    Providers.Credentials({
-      id: "Credentials",
-      name: "Credentials",
-      credentials: {
-        username: { label: "Username", type: "text", placeholder: "plantPerson542" },
-        password: {  label: "Password", type: "password" }
-      },
-      async authorize(credentials, req) {
-        // You need to provide your own logic here that takes the credentials
-        // submitted and returns either a object representing a user or value
-        // that is false/null if the credentials are invalid.
-        // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
-        // You can also use the `req` object to obtain additional parameters
-        // (i.e., the request IP address)
-        await dbConnect();
-        const user = await User.findOne({username: credentials.username}).exec()
-        
-        // If no error and we have user data, return it
-        if (user) {
-          return user
-        }
-        // Return null if user data could not be retrieved
-        return null
-      }
-    }),
+    // Providers.Credentials({
+    //   id: 'Credentials',
+    //   name: 'Credentials',
+    //   credentials: {
+    //     username: {
+    //       label: 'Username',
+    //       type: 'text',
+    //       placeholder: 'plantPerson542',
+    //     },
+    //     password: { label: 'Password', type: 'password' },
+    //   },
+    //   async authorize(credentials, req) {
+    //     // You need to provide your own logic here that takes the credentials
+    //     // submitted and returns either a object representing a user or value
+    //     // that is false/null if the credentials are invalid.
+    //     // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
+    //     // You can also use the `req` object to obtain additional parameters
+    //     // (i.e., the request IP address)
+    //     await dbConnect();
+    //     const user = await User.findOne({
+    //       username: credentials.username,
+    //     }).exec();
 
-    
+    //     // If no error and we have user data, return it
+    //     if (user) {
+    //       return user;
+    //     }
+    //     // Return null if user data could not be retrieved
+    //     return null;
+    //   },
+    // }),
   ],
 
   // A database is optional, but required to persist accounts in a database
   database: process.env.MONGODB_URI,
   secret: process.env.SECRET,
-  session: {
-    jwt: true
-  },
-  jwt: {
-    secret: process.env.SECRET
-  },
-  callbacks: {
-    async session(session, token) {
-      // token is the user object returned from the database
-      return session
-    }
-  }
-})
+  // session: {
+  //   jwt: true,
+  // },
+  // jwt: {
+  //   secret: process.env.SECRET,
+  // },
+  // callbacks: {
+  //   async session(session, token) {
+  //     // token is the user object returned from the database
+  //     return session;
+  //   },
+  // },
+});
