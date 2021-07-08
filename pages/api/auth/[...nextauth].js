@@ -63,10 +63,11 @@ export default NextAuth({
   // jwt: {
   //   secret: process.env.SECRET,
   // },
-  // callbacks: {
-  //   async session(session, token) {
-  //     // token is the user object returned from the database
-  //     return session;
-  //   },
-  // },
+  callbacks: {
+    async session(session, token) {
+      // token is the user object returned from the database
+      session.user.id = token.id;
+      return session;
+    },
+  },
 });

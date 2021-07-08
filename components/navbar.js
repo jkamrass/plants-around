@@ -1,4 +1,4 @@
-import { Navbar, Nav, Button } from 'react-bootstrap';
+import { Navbar, Nav, Button, Form } from 'react-bootstrap';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera, faSeedling, faMap } from '@fortawesome/free-solid-svg-icons';
@@ -70,24 +70,35 @@ export default function NavbarMain() {
               </Nav.Link>
             </Link>
           </Nav>
-          <Nav>
-            {session ? (
-              <>
-                <Navbar.Text>Signed in as: {session.user.email}</Navbar.Text>
-                <Navbar.Text>
-                  <Button variant="outline-primary" onClick={signOut}>
-                    Signout
-                  </Button>
-                </Navbar.Text>
-              </>
-            ) : (
-              <Navbar.Text>
-                <Button variant="outline-primary" onClick={signIn}>
+          {session ? (
+            <Nav>
+              <Nav.Item className="p-2">
+                Signed in as: {session.user.email}
+              </Nav.Item>
+              <Nav.Item>
+                <Button
+                  variant="outline-primary"
+                  size="sm"
+                  className="m-1"
+                  onClick={signOut}
+                >
+                  Signout
+                </Button>
+              </Nav.Item>
+            </Nav>
+          ) : (
+            <Nav>
+              <Nav.Item>
+                <Button
+                  variant="outline-primary"
+                  className="m-1"
+                  onClick={signIn}
+                >
                   Login/Signup
                 </Button>
-              </Navbar.Text>
-            )}
-          </Nav>
+              </Nav.Item>
+            </Nav>
+          )}
         </Navbar.Collapse>
       </Navbar>
     </div>
