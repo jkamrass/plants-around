@@ -1,11 +1,18 @@
+import { getSession } from 'next-auth/client';
 import Sighting from '../../../models/Sighting';
 import dbConnect from '../../../utils/dbConnect';
 import updateSpecimensWithVerifiedSighting from '../../../utils/updateSpecimensWithVerifiedSighting';
 
+// This endpoint updates the verified status of a sighting on the basis of a moderator's input. If the moderator confirms the sighting, then the specimen collection is updated to reflect the newly confirmed sighting.
 export default async (req, res) => {
   const { sightingId } = req.query;
   const { moderatorInput } = req.body;
   await dbConnect();
+  const session = await getSession({ req });
+
+  if (!session) {
+    return res.status(401).send('Must be authenticated');
+  }
   let sightingMatch = null;
   try {
     sightingMatch = await Sighting.findById(sightingId).exec();
@@ -24,7 +31,7 @@ export default async (req, res) => {
 
   const newVerification = {
     source: 'moderator',
-    user: 'test',
+    user: session.user.id,
     verified: Number(moderatorInput),
   };
   sightingMatch.verifications.push(newVerification);
